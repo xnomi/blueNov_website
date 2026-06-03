@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="url(#grad)"/>
+  <!-- Book pages -->
+  <path d="M8 10 L16 8 L16 24 L8 22 Z" fill="white" opacity="0.9"/>
+  <path d="M24 10 L16 8 L16 24 L24 22 Z" fill="white" opacity="0.7"/>
+  <!-- Blue wave -->
+  <path d="M7 17 Q10 14 13 17 Q16 20 19 17 Q22 14 25 17" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e40af"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+</svg>
