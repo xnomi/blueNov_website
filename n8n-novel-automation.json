@@ -1,0 +1,316 @@
+{
+  "name": "BlueNov Novel Auto-Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": "interval",
+        "interval": 12,
+        "unit": "hours"
+      },
+      "id": "3be93c5d-2c7b-42fa-ad36-c2a4c1432c6c",
+      "name": "Schedule Trigger (Twice a Day)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4o",
+        "messages": {
+          "messageValues": [
+            {
+              "role": "system",
+              "message": "You are a professional SEO Specialist and Creative Writing Director for a high-scale web novel website named BlueNov (bluenov.me).\n\nYour task is to generate a completely unique, premium, and SEO-optimized novel concept.\n\nTo ensure search traffic, generate a concept with search demand, targeting popular terms under genres like: Fantasy, Romance, Thriller, Sci-Fi, Mystery, Horror, Adventure, or Drama.\n\nYou MUST return a structured JSON response containing the following fields:\n- title: A catchy, SEO-friendly title\n- author: A fictional pen name\n- slug: A URL-safe slug (lowercase, dashes only)\n- description: An engaging 3-4 sentence synopsis that hooks the reader\n- genre_name: Exactly match one of these: Fantasy, Romance, Thriller, Sci-Fi, Mystery, Horror, Adventure, Drama\n- status: Set to 'ongoing'\n- meta_title: An SEO title under 60 characters\n- meta_description: A rich, search-engine description under 155 characters\n- image_query: 2-3 keywords for finding a matching cover image (e.g. 'cyberpunk city night', 'mystic forest wizard')\n- seed_topic: A unique tag representing today's idea to help guarantee diversity."
+            },
+            {
+              "role": "user",
+              "message": "Generate today's novel details. Make sure the theme is fresh, unique, and utilizes high-ranking keywords. Today's date is: {{ $now.toFormat('yyyy-MM-dd') }}."
+            }
+          ]
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "id": "e0bfa9da-bf72-4d2d-94bb-e0546d1bf47b",
+      "name": "OpenAI Chat Node",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        600,
+        240
+      ],
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIALS_ID"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check_error",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": "isEmpty"
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "fb6f0814-c13f-4e0d-b4b3-d02f5db3abeb",
+      "name": "Verify AI Token/Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        820,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "alerts@bluenov.me",
+        "toEmail": "admin@bluenov.me",
+        "subject": "⚠️ BlueNov Automation Alert: OpenAI Token Exhaustion / Error",
+        "html": "<h3>n8n Alert System</h3><p>The twice-daily BlueNov novel auto-generator failed to run because the OpenAI API node encountered an error or reached its token limit.</p><p><strong>Error Details:</strong></p><pre>{{ JSON.stringify($json.error || $json) }}</pre><p>Please inspect your OpenAI token balances and API keys in your OpenAI dashboard.</p>",
+        "options": {}
+      },
+      "id": "e5812903-8ad4-4d8b-9e48-9366ea9d1e5d",
+      "name": "Send Alert Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        420
+      ],
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIALS_ID"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse the JSON response from OpenAI if returned as a string\nlet aiResponse = {};\ntry {\n  const messageContent = $json.choices[0].message.content;\n  aiResponse = typeof messageContent === 'string' ? JSON.parse(messageContent) : messageContent;\n} catch (e) {\n  throw new Error(\"Failed to parse OpenAI structured JSON output: \" + e.message);\n}\n\nreturn {\n  ...aiResponse\n};"
+      },
+      "id": "528574c8-356a-4648-92f7-a3093235bca2",
+      "name": "Parse AI Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.unsplash.com/search/photos",
+        "sendQuery):": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.image_query }}"
+            },
+            {
+              "name": "per_page",
+              "value": "1"
+            },
+            {
+              "name": "orientation",
+              "value": "portrait"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Client-ID YOUR_UNSPLASH_ACCESS_KEY"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "67041a7c-6e69-42b7-a34f-124b17f53a47",
+      "name": "Search Cover Image (Unsplash)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1240,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableName": "genres",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "01b8ab24-cdcc-4f1b-bf2f-d890cfb1235b",
+      "name": "Fetch Supabase Genres",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        220
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "YOUR_SUPABASE_CREDENTIALS_ID"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Retrieve items from prior steps\nconst aiData = $('Parse AI Output').item.json;\nconst unsplashData = $('Search Cover Image (Unsplash)').item.json;\nconst genresList = $('Fetch Supabase Genres').items.map(item => item.json);\n\n// Get Unsplash regular image URL with a fallback cover\nlet coverUrl = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600';\ntry {\n  if (unsplashData.results && unsplashData.results.length > 0) {\n    coverUrl = unsplashData.results[0].urls.regular;\n  }\n} catch (e) {\n  // Keep default cover URL\n}\n\n// Match genre to ID\nconst matchedGenre = genresList.find(\n  g => g.name.toLowerCase() === aiData.genre_name.toLowerCase()\n) || genresList[0];\n\nreturn {\n  title: aiData.title,\n  slug: aiData.slug,\n  description: aiData.description,\n  author: aiData.author,\n  genre_id: matchedGenre ? matchedGenre.id : null,\n  status: aiData.status || 'ongoing',\n  is_published: true,\n  cover_url: coverUrl,\n  meta_title: aiData.meta_title,\n  meta_description: aiData.meta_description\n};"
+      },
+      "id": "dbf2c1ff-7722-4a5f-b52f-9818817a2a0a",
+      "name": "Format Supabase Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "table": "novels",
+        "fields": [
+          "title",
+          "slug",
+          "description",
+          "author",
+          "genre_id",
+          "status",
+          "is_published",
+          "cover_url",
+          "meta_title",
+          "meta_description"
+        ],
+        "options": {}
+      },
+      "id": "673f4ea3-ee1f-4903-b09e-7119ff08cb67",
+      "name": "Insert Novel (Supabase)",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        220
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "YOUR_SUPABASE_CREDENTIALS_ID"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Twice a Day)": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Chat Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Node": {
+      "main": [
+        [
+          {
+            "node": "Verify AI Token/Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify AI Token/Success": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Alert Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Output": {
+      "main": [
+        [
+          {
+            "node": "Search Cover Image (Unsplash)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Cover Image (Unsplash)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Supabase Genres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Supabase Genres": {
+      "main": [
+        [
+          {
+            "node": "Format Supabase Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Supabase Row": {
+      "main": [
+        [
+          {
+            "node": "Insert Novel (Supabase)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "id": "blueNov-novel-generator",
+  "meta": {
+    "instanceId": "blueNov-automation-instance"
+  }
+}
