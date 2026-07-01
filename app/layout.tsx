@@ -4,25 +4,26 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { OrganizationSchema, WebSiteSchema } from "@/components/seo/StructuredData";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: {
-    default: `${SITE_NAME} — Free Novels & Articles Online`,
+    default: `${SITE_NAME} — Free Articles & Insights Online`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   metadataBase: new URL(SITE_URL),
   keywords: [
-    "free novels online",
-    "read novels free",
-    "online reading",
-    "web novels",
-    "light novels",
-    "fantasy novels",
-    "romance novels",
+    "free articles online",
+    "read articles free",
+    "online articles",
+    "book reviews",
+    "writing tips",
+    "literary news",
     "bluenov",
-    "free articles",
+    "articles blog",
+    "reading recommendations",
   ],
   authors: [{ name: "BlueNov" }],
   creator: "BlueNov",
@@ -33,13 +34,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Free Novels & Articles Online`,
+    title: `${SITE_NAME} — Free Articles & Insights Online`,
     description: SITE_DESCRIPTION,
     images: [{ url: `${SITE_URL}/og-default.png`, width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Free Novels & Articles Online`,
+    title: `${SITE_NAME} — Free Articles & Insights Online`,
     description: SITE_DESCRIPTION,
     images: [`${SITE_URL}/og-default.png`],
   },
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
         <ThemeProvider>
+          <OrganizationSchema />
           <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
             <Header />
             <main style={{ flex: 1 }}>{children}</main>

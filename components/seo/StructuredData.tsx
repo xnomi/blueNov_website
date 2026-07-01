@@ -1,5 +1,9 @@
+const SITE_URL = "https://bluenov.me";
+const SITE_NAME = "BlueNov";
+const LOGO_URL = `${SITE_URL}/favicon.svg`;
+
 interface StructuredDataProps {
-  data: Record<string, unknown>;
+  data: Record<string, unknown> | Record<string, unknown>[];
 }
 
 export function StructuredData({ data }: StructuredDataProps) {
@@ -11,18 +15,26 @@ export function StructuredData({ data }: StructuredDataProps) {
   );
 }
 
+// ── WebSite + Sitelinks Search Box ────────────────────────────────────────────
 export function WebSiteSchema() {
   return (
     <StructuredData
       data={{
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "BlueNov",
-        url: "https://bluenov.me",
-        description: "Read free novels and articles online at BlueNov.",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        description:
+          "Read free articles, reviews, writing tips, and literary insights at BlueNov.",
+        inLanguage: "en-US",
+        publisher: { "@id": `${SITE_URL}/#organization` },
         potentialAction: {
           "@type": "SearchAction",
-          target: { "@type": "EntryPoint", urlTemplate: "https://bluenov.me/search?q={search_term_string}" },
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+          },
           "query-input": "required name=search_term_string",
         },
       }}
@@ -30,53 +42,118 @@ export function WebSiteSchema() {
   );
 }
 
-export function BookSchema({ novel }: { novel: { title: string; slug: string; description?: string; author?: string; genre?: { name: string }; cover_url?: string } }) {
+// ── Organization Schema (emit on every page via layout ideally) ────────────────
+export function OrganizationSchema() {
   return (
     <StructuredData
       data={{
         "@context": "https://schema.org",
-        "@type": "Book",
-        name: novel.title,
-        url: `https://bluenov.me/novels/${novel.slug}`,
-        description: novel.description,
-        author: novel.author ? { "@type": "Person", name: novel.author } : undefined,
-        genre: novel.genre?.name,
-        image: novel.cover_url,
-        publisher: { "@type": "Organization", name: "BlueNov", url: "https://bluenov.me" },
-        inLanguage: "en",
-        isAccessibleForFree: true,
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        logo: {
+          "@type": "ImageObject",
+          url: `${SITE_URL}/og-default.png`,
+          width: 1200,
+          height: 630,
+        },
+        sameAs: [
+          // Add your social profile URLs here when ready
+        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          url: `${SITE_URL}/contact`,
+        },
       }}
     />
   );
 }
 
-export function ArticleSchema({ article }: { article: { title: string; slug: string; excerpt?: string; author?: string; cover_url?: string; created_at: string; updated_at: string } }) {
+// ── Article / NewsArticle Schema ───────────────────────────────────────────────
+export function ArticleSchema({
+  article,
+}: {
+  article: {
+    title: string;
+    slug: string;
+    excerpt?: string;
+    meta_description?: string;
+    author?: string;
+    cover_url?: string;
+    created_at: string;
+    updated_at: string;
+    category?: string;
+    content?: string;
+  };
+}) {
+  // Estimate reading time from content word count
+  const wordCount = article.content
+    ? article.content.replace(/<[^>]+>/g, "").split(/\s+/).length
+    : 300;
+  const readingTimeMinutes = Math.max(1, Math.round(wordCount / 200));
+
   return (
     <StructuredData
       data={{
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "NewsArticle",
+        "@id": `${SITE_URL}/articles/${article.slug}/#article`,
         headline: article.title,
-        url: `https://bluenov.me/articles/${article.slug}`,
-        description: article.excerpt,
-        author: article.author ? { "@type": "Person", name: article.author } : { "@type": "Organization", name: "BlueNov" },
-        image: article.cover_url,
+        url: `${SITE_URL}/articles/${article.slug}`,
+        description: article.meta_description || article.excerpt,
+        articleSection: article.category || "General",
+        wordCount,
+        timeRequired: `PT${readingTimeMinutes}M`,
+        author: article.author
+          ? {
+              "@type": "Person",
+              name: article.author,
+              url: `${SITE_URL}/articles`,
+            }
+          : {
+              "@type": "Organization",
+              "@id": `${SITE_URL}/#organization`,
+              name: SITE_NAME,
+            },
+        image: article.cover_url
+          ? {
+              "@type": "ImageObject",
+              url: article.cover_url,
+              width: 1200,
+              height: 630,
+            }
+          : `${SITE_URL}/og-default.png`,
         datePublished: article.created_at,
         dateModified: article.updated_at,
         publisher: {
           "@type": "Organization",
-          name: "BlueNov",
-          url: "https://bluenov.me",
-          logo: { "@type": "ImageObject", url: "https://bluenov.me/logo.png" },
+          "@id": `${SITE_URL}/#organization`,
+          name: SITE_NAME,
+          logo: {
+            "@type": "ImageObject",
+            url: `${SITE_URL}/og-default.png`,
+          },
         },
-        inLanguage: "en",
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${SITE_URL}/articles/${article.slug}`,
+        },
+        inLanguage: "en-US",
         isAccessibleForFree: true,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
       }}
     />
   );
 }
 
-export function BreadcrumbSchema({ items }: { items: { name: string; url: string }[] }) {
+// ── Breadcrumb Schema ─────────────────────────────────────────────────────────
+export function BreadcrumbSchema({
+  items,
+}: {
+  items: { name: string; url: string }[];
+}) {
   return (
     <StructuredData
       data={{
@@ -91,4 +168,60 @@ export function BreadcrumbSchema({ items }: { items: { name: string; url: string
       }}
     />
   );
+}
+
+// ── FAQ Schema (use on About/Contact pages) ────────────────────────────────────
+export function FAQSchema({
+  faqs,
+}: {
+  faqs: { question: string; answer: string }[];
+}) {
+  return (
+    <StructuredData
+      data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }}
+    />
+  );
+}
+
+// ── CollectionPage Schema (for /articles listing) ─────────────────────────────
+export function CollectionPageSchema({
+  name,
+  description,
+  url,
+}: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  return (
+    <StructuredData
+      data={{
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": `${url}/#collectionpage`,
+        name,
+        description,
+        url,
+        inLanguage: "en-US",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      }}
+    />
+  );
+}
+
+// Legacy — keep BookSchema for any remaining references (no-op for articles site)
+export function BookSchema({ novel }: { novel: { title: string; slug: string; description?: string; author?: string; genre?: { name: string }; cover_url?: string } }) {
+  return null;
 }

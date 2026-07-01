@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const SITE_NAME = "BlueNov";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bluenov.me";
 const SITE_DESCRIPTION =
-  "Read free novels and articles online at BlueNov. Discover thousands of stories across all genres — Fantasy, Romance, Thriller, and more.";
+  "Read free articles, reviews, and insights online at BlueNov. Discover in-depth writing across topics — Reviews, News, Writing Tips, and more.";
 
 export function buildMetadata({
   title,

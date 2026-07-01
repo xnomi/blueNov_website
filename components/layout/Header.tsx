@@ -7,11 +7,10 @@ import { Search, Menu, X, Sun, Moon, BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const NAV_LINKS = [
-  { href: "/novels", label: "Novels" },
+  { href: "/", label: "Home" },
   { href: "/articles", label: "Articles" },
-  { href: "/genre/fantasy", label: "Fantasy" },
-  { href: "/genre/romance", label: "Romance" },
-  { href: "/genre/thriller", label: "Thriller" },
+  { href: "/about", label: "About Us" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export function Header() {
@@ -173,7 +172,7 @@ export function Header() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search novels, articles, genres..."
+                placeholder="Search articles, topics, authors..."
                 autoFocus
                 className="form-input"
                 style={{ flex: 1 }}

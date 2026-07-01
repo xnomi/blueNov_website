@@ -2,14 +2,14 @@ import { createClient } from "@/lib/supabase/server";
 import { ArticleCard } from "@/components/articles/ArticleCard";
 import { Article } from "@/types";
 import { buildMetadata } from "@/lib/seo";
-import { BreadcrumbSchema } from "@/components/seo/StructuredData";
+import { BreadcrumbSchema, CollectionPageSchema } from "@/components/seo/StructuredData";
 import { FileText } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = buildMetadata({
-  title: "Articles & News",
+  title: "Articles — Reviews, News & Writing Tips",
   description:
-    "Read the latest articles, book reviews, and news from the world of novels and storytelling. Updated regularly at BlueNov.",
+    "Browse free articles on BlueNov — in-depth book reviews, writing tips, literary news, and recommendations. Updated regularly.",
   path: "/articles",
 });
 
@@ -46,6 +46,11 @@ export default async function ArticlesPage({ searchParams }: PageProps) {
 
   return (
     <>
+      <CollectionPageSchema
+        name="Articles — Reviews, News & Writing Tips"
+        description="Browse free articles on BlueNov — book reviews, writing tips, literary news, and recommendations."
+        url="https://bluenov.me/articles"
+      />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://bluenov.me" },

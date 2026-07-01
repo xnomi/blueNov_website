@@ -23,17 +23,48 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!article) return { title: "Article Not Found" };
 
+  const title = article.meta_title || article.title;
+  const description = article.meta_description || article.excerpt || `Read ${article.title} at BlueNov.`;
+  const canonical = `https://bluenov.me/articles/${slug}`;
+  const ogImage = article.cover_url || "https://bluenov.me/og-default.png";
+
   return {
-    title: article.meta_title || article.title,
-    description: article.meta_description || article.excerpt || `Read ${article.title} at BlueNov.`,
-    alternates: { canonical: `https://bluenov.me/articles/${slug}` },
+    title,
+    description,
+    authors: article.author ? [{ name: article.author }] : [{ name: "BlueNov" }],
+    alternates: { canonical },
     openGraph: {
       type: "article",
-      title: article.title,
-      description: article.excerpt,
-      images: article.cover_url ? [{ url: article.cover_url }] : [],
+      title,
+      description,
+      url: canonical,
+      siteName: "BlueNov",
+      locale: "en_US",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
       publishedTime: article.created_at,
       modifiedTime: article.updated_at,
+      authors: article.author ? [article.author] : ["BlueNov"],
+      section: article.category || "General",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+      label1: "Written by",
+      data1: article.author || "BlueNov",
+      label2: "Reading time",
+      data2: `${Math.max(1, Math.round((article.content?.replace(/<[^>]+>/g, "").split(/\s+/).length || 300) / 200))} min read`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

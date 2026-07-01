@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { BookOpen, Heart } from "lucide-react";
+import { BookOpen, Heart, FileText } from "lucide-react";
 
 const FOOTER_LINKS = {
   "Discover": [
-    { href: "/novels", label: "All Novels" },
-    { href: "/articles", label: "Articles" },
-    { href: "/genre/fantasy", label: "Fantasy" },
-    { href: "/genre/romance", label: "Romance" },
-    { href: "/genre/thriller", label: "Thriller" },
-    { href: "/genre/sci-fi", label: "Sci-Fi" },
+    { href: "/articles", label: "All Articles" },
+    { href: "/articles?category=Reviews", label: "Reviews" },
+    { href: "/articles?category=News", label: "News" },
+    { href: "/articles?category=Writing+Tips", label: "Writing Tips" },
+    { href: "/articles?category=Recommendations", label: "Recommendations" },
+    { href: "/articles?category=General", label: "General" },
   ],
   "Information": [
     { href: "/about", label: "About Us" },
@@ -18,7 +18,7 @@ const FOOTER_LINKS = {
   ],
 };
 
-const GENRES = ["Fantasy", "Romance", "Thriller", "Sci-Fi", "Mystery", "Horror", "Adventure", "Drama"];
+const ARTICLE_CATEGORIES = ["Reviews", "News", "Writing Tips", "Recommendations", "General"];
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -41,7 +41,7 @@ export function Footer() {
                   borderRadius: "7px",
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}>
-                  <BookOpen size={17} color="white" />
+                  <FileText size={17} color="white" />
                 </div>
                 <span style={{
                   fontFamily: "var(--font-serif)",
@@ -51,17 +51,17 @@ export function Footer() {
                 }}>BlueNov</span>
               </Link>
               <p className="body-sm" style={{ color: "var(--text-secondary)", maxWidth: "300px", marginBottom: "1.25rem" }}>
-                Your destination for free online novels and articles. Discover thousands of stories across all genres, completely free.
+                Your destination for free articles, reviews, and insights. Deep-dive reads across writing, literature, and storytelling — completely free.
               </p>
-              {/* Genres Pills */}
+              {/* Category Pills */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {GENRES.map((g) => (
+                {ARTICLE_CATEGORIES.map((cat) => (
                   <Link
-                    key={g}
-                    href={`/genre/${g.toLowerCase().replace(/\s+/g, "-")}`}
+                    key={cat}
+                    href={`/articles?category=${encodeURIComponent(cat)}`}
                     className="genre-pill"
                   >
-                    {g}
+                    {cat}
                   </Link>
                 ))}
               </div>

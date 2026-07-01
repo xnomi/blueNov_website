@@ -13,7 +13,19 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "media.istockphoto.com",
+      },
     ],
+  },
+  async redirects() {
+    return [
+      // Redirect all novel and genre public routes to articles
+      { source: "/novels", destination: "/articles", permanent: true },
+      { source: "/novels/:path*", destination: "/articles", permanent: true },
+      { source: "/genre/:slug", destination: "/articles", permanent: true },
+    ];
   },
   async headers() {
     return [
