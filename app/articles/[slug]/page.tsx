@@ -51,10 +51,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       images: [ogImage],
-      label1: "Written by",
-      data1: article.author || "BlueNov",
-      label2: "Reading time",
-      data2: `${Math.max(1, Math.round((article.content?.replace(/<[^>]+>/g, "").split(/\s+/).length || 300) / 200))} min read`,
     },
     robots: {
       index: true,
