@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { BookOpen, Lock, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Logo } from "@/components/common/Logo";
+import { Lock, Mail, Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -43,19 +44,9 @@ export default function AdminLoginPage() {
       <div style={{ width: "100%", maxWidth: "400px" }}>
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <div style={{
-            width: "56px", height: "56px",
-            background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
-            borderRadius: "14px",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            margin: "0 auto 1rem",
-            boxShadow: "0 4px 16px rgba(37,99,235,0.35)",
-          }}>
-            <BookOpen size={28} color="white" />
+          <div style={{ display: "inline-flex", justifyContent: "center", marginBottom: "0.75rem" }}>
+            <Logo size="lg" href="/" />
           </div>
-          <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "1.75rem", fontWeight: 700, marginBottom: "0.25rem" }}>
-            BlueNov Admin
-          </h1>
           <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Sign in to manage your content</p>
         </div>
 

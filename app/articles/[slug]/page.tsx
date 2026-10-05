@@ -160,6 +160,38 @@ export default async function ArticleDetailPage({ params }: PageProps) {
           </div>
         )}
 
+        {/* Immersive Novel Reader Callout */}
+        <div
+          className="card"
+          style={{
+            padding: "1rem 1.25rem",
+            marginBottom: "2rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+            background: "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 100%)",
+            border: "1px solid var(--accent)",
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--accent)", display: "block" }}>
+              📖 Immersive Reading Mode Available
+            </span>
+            <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+              Customize typography, themes (Sepia/OLED), line height, and listen with text-to-speech.
+            </span>
+          </div>
+          <Link
+            href={`/novels/${slug}/chapter-1`}
+            className="btn-primary"
+            style={{ fontSize: "0.85rem", padding: "0.5rem 1rem", whiteSpace: "nowrap" }}
+          >
+            Launch Reader Mode →
+          </Link>
+        </div>
+
         <div className="divider" />
 
         {/* Article content */}

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="112" fill="#EEF4FD"/>
+  <rect x="8" y="8" width="496" height="496" rx="104" stroke="#1F5FE0" stroke-opacity="0.18" stroke-width="12"/>
+  
+  <!-- Spark lines / story stars -->
+  <path d="M256 56 V100" stroke="#1F5FE0" stroke-width="10" stroke-linecap="round"/>
+  <path d="M234 78 H278" stroke="#1F5FE0" stroke-width="10" stroke-linecap="round"/>
+  
+  <path d="M120 120 L146 146" stroke="#5BB8F5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M146 120 L120 146" stroke="#5BB8F5" stroke-width="8" stroke-linecap="round"/>
+  
+  <path d="M392 120 L366 146" stroke="#5BB8F5" stroke-width="8" stroke-linecap="round"/>
+  <path d="M366 120 L392 146" stroke="#5BB8F5" stroke-width="8" stroke-linecap="round"/>
+  
+  <circle cx="100" cy="220" r="6" fill="#5BB8F5"/>
+  <circle cx="412" cy="220" r="6" fill="#5BB8F5"/>
+  <circle cx="256" cy="440" r="6" fill="#1F5FE0"/>
+
+  <!-- Open Book Base -->
+  <path d="M256 380 C210 395 130 380 96 364 V230 C134 246 210 260 256 244 C302 260 378 246 416 230 V364 C382 380 302 395 256 380 Z" fill="#0A1F5C"/>
+  
+  <!-- Left Page Stack -->
+  <path d="M256 368 C216 382 140 370 106 352 V218 C144 234 216 246 256 232 Z" fill="#FFFFFF"/>
+  <path d="M140 260 C175 272 215 272 236 266" stroke="#EEF4FD" stroke-width="7" stroke-linecap="round"/>
+  <path d="M140 286 C175 298 215 298 236 292" stroke="#EEF4FD" stroke-width="7" stroke-linecap="round"/>
+  <path d="M140 312 C175 324 215 324 236 318" stroke="#EEF4FD" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Right Page Stack -->
+  <path d="M256 368 C296 382 372 370 406 352 V218 C368 234 296 246 256 232 Z" fill="#F4F8FE"/>
+  <path d="M276 266 C297 272 337 272 372 260" stroke="#EEF4FD" stroke-width="7" stroke-linecap="round"/>
+  <path d="M276 292 C297 298 337 298 372 286" stroke="#EEF4FD" stroke-width="7" stroke-linecap="round"/>
+  <path d="M276 318 C297 324 337 324 372 312" stroke="#EEF4FD" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Book Spine Center Fold -->
+  <path d="M256 232 V374" stroke="#1F5FE0" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Round Glasses perched on the open book -->
+  <circle cx="200" cy="200" r="48" stroke="#1F5FE0" stroke-width="14" fill="#FFFFFF" fill-opacity="0.75"/>
+  <path d="M180 180 A28 28 0 0 1 210 174" stroke="#5BB8F5" stroke-width="7" stroke-linecap="round"/>
+  
+  <circle cx="312" cy="200" r="48" stroke="#1F5FE0" stroke-width="14" fill="#FFFFFF" fill-opacity="0.75"/>
+  <path d="M292 180 A28 28 0 0 1 322 174" stroke="#5BB8F5" stroke-width="7" stroke-linecap="round"/>
+  
+  <path d="M248 194 Q256 182 264 194" stroke="#1F5FE0" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <path d="M152 196 Q130 188 116 198" stroke="#0A1F5C" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M360 196 Q382 188 396 198" stroke="#0A1F5C" stroke-width="10" stroke-linecap="round" fill="none"/>
+</svg>

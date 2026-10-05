@@ -73,6 +73,33 @@ export default async function ArticlesPage({ searchParams }: PageProps) {
       </div>
 
       <div className="container-main" style={{ padding: "2rem 1.25rem" }}>
+        {/* Banner to Novel Reading Platform */}
+        <div
+          className="card"
+          style={{
+            padding: "1.25rem 1.5rem",
+            marginBottom: "2rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1.25rem",
+            background: "linear-gradient(135deg, var(--accent-light) 0%, var(--bg-card) 100%)",
+            border: "1px solid var(--accent)",
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <h3 style={{ fontSize: "1.05rem", fontWeight: 700, margin: "0 0 0.25rem", color: "var(--text-primary)" }}>
+              Explore Our Free Web Novel Catalog
+            </h3>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", margin: 0 }}>
+              Read over 80+ full-length web novels with our customizable distraction-free reader.
+            </p>
+          </div>
+          <Link href="/novels" className="btn-primary" style={{ fontSize: "0.85rem", padding: "0.55rem 1.25rem" }}>
+            Browse Novels →
+          </Link>
+        </div>
         {/* Category tabs */}
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2rem" }}>
           {CATEGORIES.map((cat) => (

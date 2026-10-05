@@ -221,7 +221,70 @@ export function CollectionPageSchema({
   );
 }
 
-// Legacy — keep BookSchema for any remaining references (no-op for articles site)
-export function BookSchema({ novel }: { novel: { title: string; slug: string; description?: string; author?: string; genre?: { name: string }; cover_url?: string } }) {
-  return null;
+// ── Book Schema ──────────────────────────────────────────────────────────────
+export function BookSchema({
+  novel,
+}: {
+  novel: {
+    title: string;
+    slug: string;
+    description?: string;
+    author?: string;
+    genre?: { name: string };
+    cover_url?: string;
+    chapter_count?: number;
+  };
+}) {
+  return (
+    <StructuredData
+      data={{
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "@id": `${SITE_URL}/novels/${novel.slug}/#book`,
+        name: novel.title,
+        url: `${SITE_URL}/novels/${novel.slug}`,
+        description: novel.description,
+        genre: novel.genre?.name,
+        author: {
+          "@type": "Person",
+          name: novel.author || "Unknown",
+        },
+        image: novel.cover_url || `${SITE_URL}/og-default.png`,
+        inLanguage: "en-US",
+        numberOfPages: novel.chapter_count || 1,
+        publisher: {
+          "@type": "Organization",
+          "@id": `${SITE_URL}/#organization`,
+          name: SITE_NAME,
+        },
+      }}
+    />
+  );
 }
+
+// ── Chapter Schema ───────────────────────────────────────────────────────────
+export function ChapterSchema({
+  novel,
+  chapter,
+}: {
+  novel: { title: string; slug: string };
+  chapter: { title: string; slug: string; chapter_number: number };
+}) {
+  return (
+    <StructuredData
+      data={{
+        "@context": "https://schema.org",
+        "@type": "Chapter",
+        name: chapter.title,
+        position: chapter.chapter_number,
+        url: `${SITE_URL}/novels/${novel.slug}/${chapter.slug}`,
+        isPartOf: {
+          "@type": "Book",
+          name: novel.title,
+          url: `${SITE_URL}/novels/${novel.slug}`,
+        },
+      }}
+    />
+  );
+}
+

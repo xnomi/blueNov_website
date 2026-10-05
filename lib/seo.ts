@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const SITE_NAME = "BlueNov";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bluenov.me";
 const SITE_DESCRIPTION =
-  "Read free articles, reviews, and insights online at BlueNov. Discover in-depth writing across topics — Reviews, News, Writing Tips, and more.";
+  "Read free web novels online at BlueNov. Discover trending Fantasy, Romance, Sci-Fi, and Mystery series with an immersive, customizable reader.";
 
 export function buildMetadata({
   title,
@@ -20,7 +20,7 @@ export function buildMetadata({
   type?: "website" | "article" | "book";
   noIndex?: boolean;
 }): Metadata {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Free Novels & Articles Online`;
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Free Web Novel Reading Platform`;
   const fullDescription = description || SITE_DESCRIPTION;
   const canonical = `${SITE_URL}${path}`;
   const ogImage = image || `${SITE_URL}/og-default.png`;
@@ -49,7 +49,7 @@ export function buildMetadata({
       ? { index: false, follow: false }
       : { index: true, follow: true, googleBot: { index: true, follow: true } },
     other: {
-      "theme-color": "#2563eb",
+      "theme-color": "#1F5FE0",
     },
   };
 }

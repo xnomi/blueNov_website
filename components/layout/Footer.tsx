@@ -1,80 +1,144 @@
-import Link from "next/link";
-import { BookOpen, Heart, FileText } from "lucide-react";
+"use client";
 
-const FOOTER_LINKS = {
-  "Discover": [
-    { href: "/articles", label: "All Articles" },
-    { href: "/articles?category=Reviews", label: "Reviews" },
-    { href: "/articles?category=News", label: "News" },
-    { href: "/articles?category=Writing+Tips", label: "Writing Tips" },
-    { href: "/articles?category=Recommendations", label: "Recommendations" },
-    { href: "/articles?category=General", label: "General" },
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Logo } from "@/components/common/Logo";
+import { Heart, Compass, Bookmark, BookOpen, Sparkles } from "lucide-react";
+
+const GENRES = [
+  { name: "Fantasy", slug: "fantasy" },
+  { name: "Romance", slug: "romance" },
+  { name: "Sci-Fi", slug: "sci-fi" },
+  { name: "Mystery", slug: "mystery" },
+  { name: "Thriller", slug: "thriller" },
+  { name: "Adventure", slug: "adventure" },
+  { name: "Horror", slug: "horror" },
+  { name: "Drama", slug: "drama" },
+];
+
+const FOOTER_NAV = {
+  "Explore": [
+    { href: "/novels", label: "All Novels" },
+    { href: "/novels?status=ongoing", label: "Ongoing Series" },
+    { href: "/novels?status=completed", label: "Completed Novels" },
+    { href: "/library", label: "My Library Shelf" },
+    { href: "/search", label: "Search Directory" },
   ],
-  "Information": [
-    { href: "/about", label: "About Us" },
-    { href: "/contact", label: "Contact" },
+  "Company": [
+    { href: "/about", label: "About BlueNov" },
+    { href: "/articles", label: "Articles & News" },
+    { href: "/contact", label: "Contact Us" },
     { href: "/privacy-policy", label: "Privacy Policy" },
     { href: "/terms", label: "Terms of Service" },
   ],
 };
 
-const ARTICLE_CATEGORIES = ["Reviews", "News", "Writing Tips", "Recommendations", "General"];
-
 export function Footer() {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
+
+  // If in chapter reading route (/novels/[slug]/[chapter]), hide global footer
+  const segments = pathname.split("/").filter(Boolean);
+  const isReaderPage = segments.length >= 3 && segments[0] === "novels";
+
+  if (isReaderPage) return null;
 
   return (
     <>
-      <footer style={{
-        background: "var(--bg-secondary)",
-        borderTop: "1px solid var(--border-color)",
-        marginTop: "4rem",
-      }}>
-        <div className="container-main" style={{ padding: "3rem 1.25rem 2rem" }}>
+      <footer
+        style={{
+          background: "var(--bg-card)",
+          borderTop: "1px solid var(--border-color)",
+          marginTop: "4rem",
+        }}
+      >
+        <div className="container-main" style={{ padding: "3.5rem 1.25rem 2rem" }}>
           <div className="footer-grid">
-            {/* Brand */}
+            {/* Brand Column */}
             <div>
-              <Link href="/" className="footer-logo" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none", marginBottom: "1rem" }}>
-                <div style={{
-                  width: "32px", height: "32px",
-                  background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
-                  borderRadius: "7px",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <FileText size={17} color="white" />
-                </div>
-                <span style={{
-                  fontFamily: "var(--font-serif)",
-                  fontWeight: 700, fontSize: "1.25rem",
-                  background: "linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)",
-                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                }}>BlueNov</span>
-              </Link>
-              <p className="body-sm" style={{ color: "var(--text-secondary)", maxWidth: "300px", marginBottom: "1.25rem" }}>
-                Your destination for free articles, reviews, and insights. Deep-dive reads across writing, literature, and storytelling — completely free.
+              <div style={{ marginBottom: "1rem" }}>
+                <Logo size="md" href="/" />
+              </div>
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.6,
+                  maxWidth: "320px",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                BlueNov is a premium web novel reading platform. Read immersive fiction across all genres with customizable typography, dark & sepia themes, and zero distractions.
               </p>
-              {/* Category Pills */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {ARTICLE_CATEGORIES.map((cat) => (
+
+              {/* Genre Pills */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", maxWidth: "340px" }}>
+                {GENRES.map((g) => (
                   <Link
-                    key={cat}
-                    href={`/articles?category=${encodeURIComponent(cat)}`}
-                    className="genre-pill"
+                    key={g.slug}
+                    href={`/genre/${g.slug}`}
+                    style={{
+                      padding: "0.2rem 0.65rem",
+                      borderRadius: "999px",
+                      fontSize: "0.75rem",
+                      fontWeight: 500,
+                      background: "var(--bg-secondary)",
+                      border: "1px solid var(--border-color)",
+                      color: "var(--text-secondary)",
+                      textDecoration: "none",
+                      transition: "all 0.15s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "var(--accent)";
+                      e.currentTarget.style.color = "var(--accent)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "var(--border-color)";
+                      e.currentTarget.style.color = "var(--text-secondary)";
+                    }}
                   >
-                    {cat}
+                    {g.name}
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Links */}
-            {Object.entries(FOOTER_LINKS).map(([title, links]) => (
+            {/* Navigation Columns */}
+            {Object.entries(FOOTER_NAV).map(([title, links]) => (
               <div key={title}>
-                <h3 style={{ fontWeight: 600, fontSize: "0.9rem", marginBottom: "1rem", color: "var(--text-primary)" }}>{title}</h3>
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <h3
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "0.95rem",
+                    marginBottom: "1rem",
+                    color: "var(--text-primary)",
+                  }}
+                >
+                  {title}
+                </h3>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.55rem",
+                  }}
+                >
                   {links.map((link) => (
                     <li key={link.href}>
-                      <Link href={link.href} className="footer-link">
+                      <Link
+                        href={link.href}
+                        style={{
+                          color: "var(--text-secondary)",
+                          textDecoration: "none",
+                          fontSize: "0.875rem",
+                          transition: "color 0.15s ease",
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
+                      >
                         {link.label}
                       </Link>
                     </li>
@@ -84,14 +148,30 @@ export function Footer() {
             ))}
           </div>
 
-          <div className="divider" />
+          <div className="divider" style={{ margin: "2.5rem 0 1.5rem" }} />
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "1rem",
+            }}
+          >
             <p className="caption" style={{ color: "var(--text-muted)" }}>
               © {year} BlueNov — bluenov.me. All rights reserved.
             </p>
-            <p className="caption" style={{ color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "0.3rem" }}>
-              Made with <Heart size={12} color="#ef4444" fill="#ef4444" /> for readers everywhere
+            <p
+              className="caption"
+              style={{
+                color: "var(--text-muted)",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.3rem",
+              }}
+            >
+              Crafted with <Heart size={12} color="#EF4444" fill="#EF4444" /> for novel lovers worldwide
             </p>
           </div>
         </div>
@@ -103,27 +183,11 @@ export function Footer() {
           grid-template-columns: 2fr 1fr 1fr;
           gap: 2.5rem;
         }
-        .footer-link {
-          color: var(--text-secondary);
-          text-decoration: none;
-          font-size: 0.875rem;
-          transition: color 0.15s ease;
-        }
-        .footer-link:hover { color: var(--accent); }
-        .genre-pill {
-          padding: 0.2rem 0.625rem;
-          border-radius: 999px;
-          font-size: 0.75rem;
-          font-weight: 500;
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          color: var(--text-secondary);
-          text-decoration: none;
-          transition: all 0.15s ease;
-        }
-        .genre-pill:hover { background: var(--accent-light); color: var(--accent); }
         @media (max-width: 768px) {
-          .footer-grid { grid-template-columns: 1fr !important; }
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
         }
       `}</style>
     </>

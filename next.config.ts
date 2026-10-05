@@ -5,27 +5,16 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "zcbvnntslbbopfyfhfsy.supabase.co",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
+        hostname: "**",
       },
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "media.istockphoto.com",
+        protocol: "http",
+        hostname: "**",
       },
     ],
   },
   async redirects() {
-    return [
-      // Redirect all novel and genre public routes to articles
-      { source: "/novels", destination: "/articles", permanent: true },
-      { source: "/novels/:path*", destination: "/articles", permanent: true },
-      { source: "/genre/:slug", destination: "/articles", permanent: true },
-    ];
+    return [];
   },
   async headers() {
     return [
