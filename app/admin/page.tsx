@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { BookOpen, FileText, Eye, BookMarked, TrendingUp, Plus } from "lucide-react";
+import { BookOpen, Eye, BookMarked, TrendingUp, Plus } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   const supabase = await createClient();
@@ -8,23 +8,18 @@ export default async function AdminDashboardPage() {
   const [
     { count: novelCount },
     { count: chapterCount },
-    { count: articleCount },
     { data: popularNovels },
     { data: recentChapters },
-    { data: recentArticles },
   ] = await Promise.all([
     supabase.from("novels").select("*", { count: "exact", head: true }).eq("is_published", true),
     supabase.from("chapters").select("*", { count: "exact", head: true }).eq("is_published", true),
-    supabase.from("articles").select("*", { count: "exact", head: true }).eq("is_published", true),
     supabase.from("novels").select("title, slug, view_count").eq("is_published", true).order("view_count", { ascending: false }).limit(5),
     supabase.from("chapters").select("title, slug, chapter_number, created_at, novels!inner(slug, title)").eq("is_published", true).order("created_at", { ascending: false }).limit(5),
-    supabase.from("articles").select("title, slug, created_at, view_count").eq("is_published", true).order("created_at", { ascending: false }).limit(5),
   ]);
 
   const stats = [
-    { label: "Published Novels", value: novelCount || 0, icon: BookOpen, color: "#3b82f6", href: "/admin/novels" },
+    { label: "Published Novels", value: novelCount || 0, icon: BookOpen, color: "#1F5FE0", href: "/admin/novels" },
     { label: "Total Chapters", value: chapterCount || 0, icon: BookMarked, color: "#10b981", href: "/admin/chapters" },
-    { label: "Articles", value: articleCount || 0, icon: FileText, color: "#f59e0b", href: "/admin/articles" },
   ];
 
   return (
@@ -37,7 +32,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem", marginBottom: "2.5rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.25rem", marginBottom: "2.5rem" }}>
         {stats.map(({ label, value, icon: Icon, color, href }) => (
           <Link key={label} href={href} style={{ textDecoration: "none" }}>
             <div style={{
@@ -116,31 +111,6 @@ export default async function AdminDashboardPage() {
           )}
         </div>
       </div>
-
-      {/* Recent Articles */}
-      <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: "12px", padding: "1.5rem", marginTop: "1.5rem" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
-          <h2 style={{ fontWeight: 700, fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <FileText size={17} color="#f59e0b" /> Recent Articles
-          </h2>
-          <Link href="/admin/articles/new" className="btn-primary" style={{ padding: "0.3rem 0.75rem", fontSize: "0.8rem" }}>
-            <Plus size={14} /> Add
-          </Link>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "0.75rem" }}>
-          {recentArticles?.map((a: any) => (
-            <Link key={a.slug} href={`/admin/articles/${a.slug}/edit`} style={{ textDecoration: "none", padding: "0.875rem", background: "var(--bg-secondary)", borderRadius: "8px", display: "block", border: "1px solid var(--border-color)" }}>
-              <p style={{ fontWeight: 600, fontSize: "0.875rem", color: "var(--text-primary)", marginBottom: "0.25rem" }}>{a.title}</p>
-              <p style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{new Date(a.created_at).toLocaleDateString()}</p>
-            </Link>
-          ))}
-        </div>
-        {(!recentArticles || recentArticles.length === 0) && (
-          <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>No articles yet.</p>
-        )}
-      </div>
-
-      <style>{`@media (max-width: 768px) { .admin-stats-grid { grid-template-columns: 1fr !important; } }`}</style>
     </div>
   );
 }

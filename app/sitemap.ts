@@ -6,26 +6,19 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://bluenov.me";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient();
 
-  const [{ data: novels }, { data: genres }, { data: articles }] =
-    await Promise.all([
-      supabase
-        .from("novels")
-        .select("slug, updated_at")
-        .eq("is_published", true)
-        .limit(200),
-      supabase.from("genres").select("slug").limit(50),
-      supabase
-        .from("articles")
-        .select("slug, updated_at")
-        .eq("is_published", true)
-        .limit(100),
-    ]);
+  const [{ data: novels }, { data: genres }] = await Promise.all([
+    supabase
+      .from("novels")
+      .select("slug, updated_at")
+      .eq("is_published", true)
+      .limit(300),
+    supabase.from("genres").select("slug").limit(50),
+  ]);
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: new Date(), changeFrequency: "daily", priority: 1.0 },
     { url: `${SITE_URL}/novels`, lastModified: new Date(), changeFrequency: "daily", priority: 0.95 },
     { url: `${SITE_URL}/library`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
-    { url: `${SITE_URL}/articles`, lastModified: new Date(), changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.4 },
     { url: `${SITE_URL}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.4 },
     { url: `${SITE_URL}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.2 },
@@ -46,12 +39,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
-  const articlePages: MetadataRoute.Sitemap = (articles || []).map((a) => ({
-    url: `${SITE_URL}/articles/${a.slug}`,
-    lastModified: new Date(a.updated_at),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
-
-  return [...staticPages, ...novelPages, ...genrePages, ...articlePages];
+  return [...staticPages, ...novelPages, ...genrePages];
 }

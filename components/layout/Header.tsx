@@ -27,7 +27,6 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/novels", label: "Browse Novels" },
   { href: "/library", label: "My Library" },
-  { href: "/articles", label: "Articles & Guides" },
 ];
 
 export function Header() {

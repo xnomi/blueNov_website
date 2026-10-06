@@ -26,7 +26,6 @@ const FOOTER_NAV = {
   ],
   "Company": [
     { href: "/about", label: "About BlueNov" },
-    { href: "/articles", label: "Articles & News" },
     { href: "/contact", label: "Contact Us" },
     { href: "/privacy-policy", label: "Privacy Policy" },
     { href: "/terms", label: "Terms of Service" },

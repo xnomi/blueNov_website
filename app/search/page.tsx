@@ -1,8 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NovelCard } from "@/components/novels/NovelCard";
-import { ArticleCard } from "@/components/articles/ArticleCard";
-import { Novel, Article } from "@/types";
-import { Search, BookOpen, FileText, Compass, Sparkles } from "lucide-react";
+import { Novel } from "@/types";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -15,7 +14,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   return {
     title: q ? `Search: "${q}" | BlueNov` : "Search Novels | BlueNov",
     description: q
-      ? `Search results for "${q}" — explore free web novels and articles on BlueNov.`
+      ? `Search results for "${q}" — explore free web novels and chapters on BlueNov.`
       : "Search thousands of free web novels and chapters on BlueNov.",
     robots: { index: false, follow: true },
   };
@@ -67,24 +66,14 @@ export default async function SearchPage({ searchParams }: PageProps) {
   const supabase = await createClient();
   const searchTerm = `%${trimmed}%`;
 
-  const [{ data: novels }, { data: articles }] = await Promise.all([
-    supabase
-      .from("novels")
-      .select("*, genre:genres(*)")
-      .eq("is_published", true)
-      .or(`title.ilike.${searchTerm},description.ilike.${searchTerm},author.ilike.${searchTerm}`)
-      .limit(16),
-    supabase
-      .from("articles")
-      .select("*")
-      .eq("is_published", true)
-      .or(`title.ilike.${searchTerm},excerpt.ilike.${searchTerm},author.ilike.${searchTerm}`)
-      .limit(6),
-  ]);
+  const { data: novels } = await supabase
+    .from("novels")
+    .select("*, genre:genres(*)")
+    .eq("is_published", true)
+    .or(`title.ilike.${searchTerm},description.ilike.${searchTerm},author.ilike.${searchTerm}`)
+    .limit(24);
 
   const novelResults = (novels as Novel[]) || [];
-  const articleResults = (articles as Article[]) || [];
-  const totalResults = novelResults.length + articleResults.length;
 
   return (
     <div className="container-main" style={{ padding: "3rem 1.25rem 6rem" }}>
@@ -95,20 +84,13 @@ export default async function SearchPage({ searchParams }: PageProps) {
           <span style={{ color: "var(--accent)" }}>"{trimmed}"</span>
         </h1>
         <p style={{ color: "var(--text-secondary)" }}>
-          {totalResults} {totalResults === 1 ? "result" : "results"} found across BlueNov
+          {novelResults.length} {novelResults.length === 1 ? "novel" : "novels"} found
         </p>
       </div>
 
       {/* Novels Results */}
-      {novelResults.length > 0 && (
+      {novelResults.length > 0 ? (
         <section style={{ marginBottom: "3.5rem" }}>
-          <div className="section-title">
-            <div className="section-title-left">
-              <div className="section-title-bar" />
-              <h2 className="h3" style={{ margin: 0 }}>Novels ({novelResults.length})</h2>
-            </div>
-          </div>
-
           <div
             style={{
               display: "grid",
@@ -121,39 +103,13 @@ export default async function SearchPage({ searchParams }: PageProps) {
             ))}
           </div>
         </section>
-      )}
-
-      {/* Articles Results */}
-      {articleResults.length > 0 && (
-        <section style={{ marginBottom: "3rem" }}>
-          <div className="section-title">
-            <div className="section-title-left">
-              <div className="section-title-bar" />
-              <h2 className="h3" style={{ margin: 0 }}>Related Articles ({articleResults.length})</h2>
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {articleResults.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Empty State */}
-      {totalResults === 0 && (
+      ) : (
+        /* Empty State */
         <div className="card" style={{ textAlign: "center", padding: "5rem 1.5rem" }}>
           <Search size={48} color="var(--text-muted)" style={{ margin: "0 auto 1rem", opacity: 0.5 }} />
-          <h2 className="h3" style={{ marginBottom: "0.5rem" }}>No Results Found</h2>
+          <h2 className="h3" style={{ marginBottom: "0.5rem" }}>No Novels Found</h2>
           <p style={{ color: "var(--text-secondary)", maxWidth: "420px", margin: "0 auto 1.5rem" }}>
-            We couldn't find any novels or articles matching "{trimmed}". Try checking for spelling mistakes or explore our catalog.
+            We couldn't find any novels matching "{trimmed}". Try checking for spelling mistakes or explore our catalog.
           </p>
           <Link href="/novels" className="btn-primary">
             Explore All Novels

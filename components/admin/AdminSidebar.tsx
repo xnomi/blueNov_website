@@ -19,7 +19,6 @@ const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/novels", label: "Novels", icon: BookOpen },
   { href: "/admin/chapters", label: "Chapters", icon: BookMarked },
-  { href: "/admin/articles", label: "Articles", icon: FileText },
   { href: "/admin/messages", label: "Messages", icon: Mail },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
