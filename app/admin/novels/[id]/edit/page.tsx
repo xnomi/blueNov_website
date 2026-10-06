@@ -4,7 +4,18 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { slugify } from "@/lib/utils";
-import { Save, ArrowLeft, Loader2, Trash2 } from "lucide-react";
+import {
+  Save,
+  ArrowLeft,
+  Loader2,
+  Trash2,
+  Globe,
+  Sparkles,
+  CheckCircle2,
+  AlertCircle,
+  Eye,
+  Monitor,
+} from "lucide-react";
 import Link from "next/link";
 
 interface Genre {
@@ -45,7 +56,9 @@ export default function EditNovelPage({ params }: { params: Promise<{ id: string
 
   const handleTitleChange = (title: string) => {
     set("title", title);
-    set("slug", slugify(title));
+    if (!form.slug || form.slug === slugify(form.title || "")) {
+      set("slug", slugify(title));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,7 +83,7 @@ export default function EditNovelPage({ params }: { params: Promise<{ id: string
       return;
     }
 
-    setSuccess("Novel saved successfully!");
+    setSuccess("Novel and SEO metadata updated successfully!");
     setSaving(false);
   };
 
@@ -85,124 +98,263 @@ export default function EditNovelPage({ params }: { params: Promise<{ id: string
     router.push("/admin/novels");
   };
 
+  // SEO calculations
+  const displayTitle = form.meta_title || (form.title ? `${form.title} — Free Web Novel | BlueNov` : "BlueNov Novel");
+  const displayDesc = form.meta_description || form.description || "Read free web novel chapters online on BlueNov.";
+  const displaySlug = form.slug || "novel-slug";
+
+  // Score calculation
+  let seoScore = 0;
+  if (form.title) seoScore += 25;
+  if (form.description && form.description.length > 50) seoScore += 25;
+  if (form.cover_url) seoScore += 25;
+  if (form.genre_id) seoScore += 25;
+
   if (loading) {
-    return <div style={{ padding: "2rem", color: "var(--text-muted)" }}>Loading...</div>;
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "3rem", color: "var(--text-muted)" }}>
+        <Loader2 size={20} className="animate-spin" style={{ animation: "spin 1s linear infinite" }} />
+        <span>Loading novel details...</span>
+      </div>
+    );
   }
 
   return (
-    <div style={{ maxWidth: "800px" }}>
+    <div style={{ maxWidth: "900px" }}>
+      {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <Link href="/admin/novels" className="btn-ghost" style={{ padding: "0.5rem" }}>
             <ArrowLeft size={18} />
           </Link>
           <div>
-            <h1 className="h2">Edit Novel</h1>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>Modify novel details and settings</p>
+            <h1 className="h2" style={{ margin: "0 0 0.2rem" }}>Edit Novel</h1>
+            <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", margin: 0 }}>
+              Modify novel metadata, chapters, and SEO / AI Answer Engine presence.
+            </p>
           </div>
         </div>
-        <button
-          onClick={handleDelete}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            padding: "0.5rem 1rem",
-            borderRadius: "8px",
-            background: "rgba(239,68,68,0.1)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            color: "#ef4444",
-            cursor: "pointer",
-            fontSize: "0.875rem",
-          }}
-        >
-          <Trash2 size={15} /> Delete
-        </button>
+
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <Link
+            href={`/novels/${form.slug}`}
+            target="_blank"
+            className="btn-ghost"
+            style={{ fontSize: "0.85rem", gap: "0.4rem" }}
+          >
+            <Eye size={15} /> View Live
+          </Link>
+          <button
+            onClick={handleDelete}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              padding: "0.5rem 1rem",
+              borderRadius: "8px",
+              background: "rgba(239,68,68,0.1)",
+              border: "1px solid rgba(239,68,68,0.3)",
+              color: "#ef4444",
+              cursor: "pointer",
+              fontSize: "0.875rem",
+              fontWeight: 600,
+            }}
+          >
+            <Trash2 size={15} /> Delete
+          </button>
+        </div>
       </div>
 
       {error && (
-        <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "8px", padding: "0.75rem 1rem", marginBottom: "1rem", color: "#ef4444" }}>
-          {error}
+        <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: "10px", padding: "0.85rem 1.25rem", marginBottom: "1.25rem", color: "#ef4444", fontSize: "0.88rem" }}>
+          ⚠️ {error}
         </div>
       )}
       {success && (
-        <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", borderRadius: "8px", padding: "0.75rem 1rem", marginBottom: "1rem", color: "#10b981" }}>
-          {success}
+        <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", borderRadius: "10px", padding: "0.85rem 1.25rem", marginBottom: "1.25rem", color: "#10b981", fontSize: "0.88rem" }}>
+          ✓ {success}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem", background: "var(--bg-card)", padding: "2rem", borderRadius: "12px", border: "1px solid var(--border-color)" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
-          <div>
-            <label className="form-label">Title *</label>
-            <input required value={form.title || ""} onChange={(e) => handleTitleChange(e.target.value)} className="form-input" placeholder="Novel Title" />
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
+        {/* Core Novel Details */}
+        <div className="card" style={{ padding: "2rem" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem" }}>
+            General Information
+          </h2>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.25rem" }}>
+            <div>
+              <label className="form-label">Novel Title *</label>
+              <input required value={form.title || ""} onChange={(e) => handleTitleChange(e.target.value)} className="form-input" placeholder="Title" />
+            </div>
+            <div>
+              <label className="form-label">Slug (URL) *</label>
+              <input required value={form.slug || ""} onChange={(e) => set("slug", e.target.value)} className="form-input" placeholder="novel-slug" />
+            </div>
+            <div>
+              <label className="form-label">Author Name</label>
+              <input value={form.author || ""} onChange={(e) => set("author", e.target.value)} className="form-input" placeholder="Author" />
+            </div>
+            <div>
+              <label className="form-label">Genre</label>
+              <select value={form.genre_id || ""} onChange={(e) => set("genre_id", e.target.value)} className="form-input">
+                <option value="">— Select Genre —</option>
+                {genres.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="form-label">Publication Status</label>
+              <select value={form.status || "ongoing"} onChange={(e) => set("status", e.target.value)} className="form-input">
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+                <option value="hiatus">On Hiatus</option>
+              </select>
+            </div>
+            <div>
+              <label className="form-label">Cover Image URL</label>
+              <input value={form.cover_url || ""} onChange={(e) => set("cover_url", e.target.value)} className="form-input" placeholder="https://..." />
+            </div>
           </div>
+
           <div>
-            <label className="form-label">Slug *</label>
-            <input required value={form.slug || ""} onChange={(e) => set("slug", e.target.value)} className="form-input" placeholder="novel-slug" />
-          </div>
-          <div>
-            <label className="form-label">Author</label>
-            <input value={form.author || ""} onChange={(e) => set("author", e.target.value)} className="form-input" placeholder="Author Name" />
-          </div>
-          <div>
-            <label className="form-label">Genre</label>
-            <select value={form.genre_id || ""} onChange={(e) => set("genre_id", e.target.value)} className="form-input">
-              <option value="">— Select Genre —</option>
-              {genres.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="form-label">Status</label>
-            <select value={form.status || "ongoing"} onChange={(e) => set("status", e.target.value)} className="form-input">
-              <option value="ongoing">Ongoing</option>
-              <option value="completed">Completed</option>
-              <option value="hiatus">On Hiatus</option>
-            </select>
-          </div>
-          <div>
-            <label className="form-label">Cover Image URL</label>
-            <input value={form.cover_url || ""} onChange={(e) => set("cover_url", e.target.value)} className="form-input" placeholder="https://..." />
+            <label className="form-label">Synopsis / Description</label>
+            <textarea rows={4} value={form.description || ""} onChange={(e) => set("description", e.target.value)} className="form-input" placeholder="Novel summary..." style={{ resize: "vertical" }} />
           </div>
         </div>
 
-        <div>
-          <label className="form-label">Description</label>
-          <textarea rows={4} value={form.description || ""} onChange={(e) => set("description", e.target.value)} className="form-input" placeholder="Novel synopsis..." style={{ resize: "vertical" }} />
-        </div>
+        {/* SEO & AGO (Answer Engine Optimization) Suite */}
+        <div
+          className="card"
+          style={{
+            padding: "2rem",
+            background: "linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%)",
+            border: "1px solid var(--border-color)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem", flexWrap: "wrap", gap: "0.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <Globe size={18} color="var(--accent)" />
+              <h2 style={{ fontSize: "1.1rem", fontWeight: 700, margin: 0 }}>
+                SEO & Answer Engine Optimization (AGO)
+              </h2>
+            </div>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                padding: "0.25rem 0.65rem",
+                borderRadius: "999px",
+                background: seoScore >= 75 ? "rgba(16, 185, 129, 0.1)" : "rgba(245, 158, 11, 0.1)",
+                color: seoScore >= 75 ? "#10b981" : "#f59e0b",
+                fontSize: "0.78rem",
+                fontWeight: 700,
+              }}
+            >
+              <Sparkles size={12} /> Index Readiness: {seoScore}%
+            </div>
+          </div>
 
-        <div style={{ borderTop: "1px solid var(--border-color)", paddingTop: "1.25rem" }}>
-          <p style={{ fontSize: "0.875rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "1rem" }}>SEO (Optional)</p>
+          {/* Google SERP Live Simulation */}
+          <div
+            style={{
+              padding: "1.25rem",
+              background: "#ffffff",
+              borderRadius: "12px",
+              border: "1px solid #e2e8f0",
+              marginBottom: "1.5rem",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.04)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.35rem" }}>
+              <div style={{ width: "16px", height: "16px", borderRadius: "50%", background: "#1F5FE0", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.6rem", fontWeight: 700 }}>
+                B
+              </div>
+              <span style={{ fontSize: "0.78rem", color: "#4d5156" }}>
+                https://bluenov.me › novels › {displaySlug}
+              </span>
+            </div>
+            <div style={{ color: "#1a0dab", fontSize: "1.15rem", fontWeight: 400, lineHeight: 1.3, marginBottom: "0.3rem", fontFamily: "arial, sans-serif" }}>
+              {displayTitle}
+            </div>
+            <div style={{ color: "#4d5156", fontSize: "0.85rem", lineHeight: 1.45, fontFamily: "arial, sans-serif" }}>
+              {displayDesc.slice(0, 160)}...
+            </div>
+          </div>
+
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
             <div>
-              <label className="form-label">Meta Title</label>
-              <input value={form.meta_title || ""} onChange={(e) => set("meta_title", e.target.value)} className="form-input" placeholder="Override title for search engines" />
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3rem" }}>
+                <label className="form-label" style={{ margin: 0 }}>Custom Meta Title (SERP)</label>
+                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                  {form.meta_title?.length || 0} / 60
+                </span>
+              </div>
+              <input value={form.meta_title || ""} onChange={(e) => set("meta_title", e.target.value)} className="form-input" placeholder="Override Google search title" />
             </div>
+
             <div>
-              <label className="form-label">Meta Description</label>
-              <input value={form.meta_description || ""} onChange={(e) => set("meta_description", e.target.value)} className="form-input" placeholder="160-character description" />
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3rem" }}>
+                <label className="form-label" style={{ margin: 0 }}>Meta Description (Search & AI Snippets)</label>
+                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                  {form.meta_description?.length || 0} / 160
+                </span>
+              </div>
+              <input value={form.meta_description || ""} onChange={(e) => set("meta_description", e.target.value)} className="form-input" placeholder="120–160 char summary" />
             </div>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <input type="checkbox" id="is_published" checked={form.is_published ?? true} onChange={(e) => set("is_published", e.target.checked)} style={{ width: "16px", height: "16px" }} />
-          <label htmlFor="is_published" style={{ fontSize: "0.875rem", fontWeight: 500 }}>Published (visible to readers)</label>
+        {/* Publication Toggle */}
+        <div
+          className="card"
+          style={{
+            padding: "1.25rem 1.5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>
+            <div style={{ fontWeight: 600, fontSize: "0.95rem", color: "var(--text-primary)", marginBottom: "0.2rem" }}>
+              Visibility Status
+            </div>
+            <div style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
+              When enabled, novel appears on homepage, browse, search, and is indexed in <code>sitemap.xml</code>.
+            </div>
+          </div>
+
+          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer", fontWeight: 600, fontSize: "0.9rem" }}>
+            <input
+              type="checkbox"
+              checked={form.is_published ?? true}
+              onChange={(e) => set("is_published", e.target.checked)}
+              style={{ width: "18px", height: "18px", accentColor: "var(--accent)" }}
+            />
+            <span>Published</span>
+          </label>
         </div>
 
+        {/* Save Actions */}
         <div style={{ display: "flex", gap: "0.75rem" }}>
-          <button type="submit" disabled={saving} className="btn-primary">
-            {saving ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> : <Save size={16} />}
-            {saving ? "Saving..." : "Save Changes"}
+          <button type="submit" disabled={saving} className="btn-primary" style={{ padding: "0.75rem 1.5rem", fontSize: "0.95rem" }}>
+            {saving ? <Loader2 size={16} className="animate-spin" style={{ animation: "spin 1s linear infinite" }} /> : <Save size={16} />}
+            <span>{saving ? "Saving Changes..." : "Save Novel & SEO"}</span>
           </button>
-          <Link href="/admin/novels" className="btn-ghost">Cancel</Link>
+          <Link href="/admin/novels" className="btn-ghost" style={{ padding: "0.75rem 1.25rem" }}>
+            Cancel
+          </Link>
         </div>
       </form>
-      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+
+      <style>{`
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }
