@@ -43,9 +43,10 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  // If in chapter reader page (/novels/[slug]/[chapter]), hide global header
+  // If in chapter reader page (/novels/[slug]/[chapter]) or admin panel (/admin), hide global header
   const segments = pathname.split("/").filter(Boolean);
   const isReaderPage = segments.length >= 3 && segments[0] === "novels";
+  const isAdminPage = pathname.startsWith("/admin");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 15);
@@ -67,7 +68,7 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (isReaderPage) return null;
+  if (isReaderPage || isAdminPage) return null;
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

@@ -36,11 +36,12 @@ export function Footer() {
   const pathname = usePathname();
   const year = new Date().getFullYear();
 
-  // If in chapter reading route (/novels/[slug]/[chapter]), hide global footer
+  // If in chapter reading route (/novels/[slug]/[chapter]) or admin panel (/admin), hide global footer
   const segments = pathname.split("/").filter(Boolean);
   const isReaderPage = segments.length >= 3 && segments[0] === "novels";
+  const isAdminPage = pathname.startsWith("/admin");
 
-  if (isReaderPage) return null;
+  if (isReaderPage || isAdminPage) return null;
 
   return (
     <>

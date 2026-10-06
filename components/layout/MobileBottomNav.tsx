@@ -7,11 +7,12 @@ import { Home, Compass, Bookmark, User, Sliders } from "lucide-react";
 export function MobileBottomNav() {
   const pathname = usePathname();
 
-  // If in chapter reading route (/novels/[slug]/[chapter]), hide mobile bottom nav
+  // If in chapter reading route (/novels/[slug]/[chapter]) or admin panel (/admin), hide mobile bottom nav
   const segments = pathname.split("/").filter(Boolean);
   const isReaderPage = segments.length >= 3 && segments[0] === "novels";
+  const isAdminPage = pathname.startsWith("/admin");
 
-  if (isReaderPage) {
+  if (isReaderPage || isAdminPage) {
     return null;
   }
 
