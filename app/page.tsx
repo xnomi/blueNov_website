@@ -112,6 +112,8 @@ export default async function HomePage() {
           padding: "3.5rem 0 3rem",
           position: "relative",
           overflow: "hidden",
+          width: "100%",
+          maxWidth: "100vw",
         }}
       >
         {/* Decorative ambient gradients */}
@@ -119,9 +121,9 @@ export default async function HomePage() {
           style={{
             position: "absolute",
             top: "-100px",
-            right: "-50px",
-            width: "500px",
-            height: "500px",
+            right: 0,
+            width: "min(500px, 90vw)",
+            height: "min(500px, 90vw)",
             background: "radial-gradient(circle, rgba(31, 95, 224, 0.12) 0%, transparent 70%)",
             borderRadius: "50%",
             pointerEvents: "none",
@@ -131,9 +133,9 @@ export default async function HomePage() {
           style={{
             position: "absolute",
             bottom: "-80px",
-            left: "-40px",
-            width: "360px",
-            height: "360px",
+            left: 0,
+            width: "min(360px, 80vw)",
+            height: "min(360px, 80vw)",
             background: "radial-gradient(circle, rgba(91, 184, 245, 0.1) 0%, transparent 70%)",
             borderRadius: "50%",
             pointerEvents: "none",
@@ -317,14 +319,7 @@ export default async function HomePage() {
         )}
 
         {/* ── Two Column: Editor's Picks & Recently Updated ──── */}
-        <section
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.2fr 1fr",
-            gap: "2.5rem",
-          }}
-          className="home-split-grid"
-        >
+        <section className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8">
           {/* Editor's Picks */}
           <div>
             <div className="section-title">

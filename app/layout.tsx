@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
@@ -7,6 +7,14 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { OrganizationSchema, WebSiteSchema } from "@/components/seo/StructuredData";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/seo";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#1F5FE0",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -72,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
         <meta name="theme-color" content="#1F5FE0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -111,9 +120,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
         <ThemeProvider>
           <OrganizationSchema />
-          <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+              width: "100%",
+              maxWidth: "100vw",
+              overflowX: "clip",
+              position: "relative",
+            }}
+          >
             <Header />
-            <main style={{ flex: 1 }}>{children}</main>
+            <main style={{ flex: 1, width: "100%", maxWidth: "100vw", overflowX: "clip" }}>{children}</main>
             <Footer />
             <MobileBottomNav />
           </div>

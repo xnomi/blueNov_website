@@ -108,27 +108,29 @@ export function Header() {
         }}
       >
         <div
-          className="container-main"
+          className="container-main header-main-bar"
           style={{
             display: "flex",
             alignItems: "center",
             height: "64px",
-            gap: "1.25rem",
+            gap: "1rem",
+            justifyContent: "space-between",
           }}
         >
           {/* Brand Logo with Book & Glasses */}
-          <Logo size="md" href="/" />
+          <div style={{ flexShrink: 0 }}>
+            <Logo size="md" href="/" />
+          </div>
 
           {/* Desktop Nav */}
           <nav
             style={{
-              display: "flex",
               alignItems: "center",
               gap: "0.25rem",
-              marginLeft: "1.25rem",
+              marginLeft: "1rem",
               flex: 1,
             }}
-            className="desktop-nav"
+            className="desktop-nav hidden md:flex"
           >
             {NAV_LINKS.map((link) => {
               const isActive =
@@ -172,11 +174,13 @@ export function Header() {
 
           {/* Right Controls */}
           <div
+            className="header-controls"
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "0.5rem",
+              gap: "0.4rem",
               marginLeft: "auto",
+              flexShrink: 0,
             }}
           >
             {/* Search Trigger */}
@@ -187,18 +191,18 @@ export function Header() {
                 background: "var(--bg-card)",
                 border: "1px solid var(--border-color)",
                 borderRadius: "10px",
-                padding: "0.5rem 0.75rem",
+                padding: "0.45rem 0.65rem",
                 cursor: "pointer",
                 color: "var(--text-secondary)",
                 display: "flex",
                 alignItems: "center",
-                gap: "0.5rem",
+                gap: "0.45rem",
                 fontSize: "0.85rem",
               }}
             >
               <Search size={16} />
               <span className="hidden md:inline" style={{ color: "var(--text-muted)" }}>
-                Search novels, authors...
+                Search novels...
               </span>
             </button>
 
@@ -455,8 +459,8 @@ export function Header() {
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: "0.45rem",
-                      padding: "0.45rem 0.9rem",
+                      gap: "0.4rem",
+                      padding: "0.45rem 0.65rem",
                       borderRadius: "10px",
                       fontSize: "0.85rem",
                       fontWeight: 600,
@@ -467,6 +471,7 @@ export function Header() {
                       transition: "all 0.15s ease",
                       boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
                     }}
+                    aria-label="Sign In"
                     onMouseEnter={(e) => {
                       e.currentTarget.style.borderColor = "var(--accent)";
                       e.currentTarget.style.transform = "translateY(-1px)";
@@ -476,8 +481,8 @@ export function Header() {
                       e.currentTarget.style.transform = "none";
                     }}
                   >
-                    <UserIcon size={15} style={{ color: "var(--accent)" }} />
-                    <span>Sign In</span>
+                    <UserIcon size={16} style={{ color: "var(--accent)" }} />
+                    <span className="hidden sm:inline">Sign In</span>
                   </Link>
                 )}
               </>
@@ -487,15 +492,14 @@ export function Header() {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle mobile menu"
-              className="mobile-menu-btn"
+              className="mobile-menu-btn flex md:hidden"
               style={{
                 background: "var(--bg-card)",
                 border: "1px solid var(--border-color)",
                 borderRadius: "10px",
-                padding: "0.5rem",
+                padding: "0.45rem",
                 cursor: "pointer",
                 color: "var(--text-secondary)",
-                display: "none",
                 alignItems: "center",
               }}
             >
@@ -671,10 +675,19 @@ export function Header() {
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-4px); }
           to { opacity: 1; transform: translateY(0); }
-        }
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
+        }
+        @media (max-width: 640px) {
+          .header-main-bar {
+            height: 56px !important;
+            gap: 0.5rem !important;
+            padding: 0 0.75rem !important;
+          }
+          .header-controls {
+            gap: 0.3rem !important;
+          }
         }
       `}</style>
     </>

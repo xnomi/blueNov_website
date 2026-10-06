@@ -319,60 +319,100 @@ export function ReaderShell({
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: "0.75rem",
+            gap: "0.5rem",
           }}
         >
           {/* Left: Back to Novel / Home */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
             <Link
               href={`/novels/${novel.slug}`}
               className="btn-ghost"
-              style={{ padding: "0.4rem 0.65rem", fontSize: "0.85rem", gap: "0.35rem" }}
+              style={{
+                padding: "0.4rem 0.55rem",
+                fontSize: "0.85rem",
+                gap: "0.35rem",
+                borderRadius: "10px",
+              }}
               title="Return to Novel Details"
+              aria-label="Return to novel details"
             >
-              <ArrowLeft size={16} />
-              <span className="hidden sm:inline" style={{ maxWidth: "220px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <ArrowLeft size={18} />
+              <span
+                className="hidden md:inline"
+                style={{
+                  maxWidth: "180px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {novel.title}
               </span>
             </Link>
           </div>
 
-          {/* Center: Chapter indicator */}
+          {/* Center: Chapter indicator with strict no-overflow boundaries */}
           <div
             style={{
               textAlign: "center",
               minWidth: 0,
               flex: 1,
+              overflow: "hidden",
+              padding: "0 0.5rem",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <span
               style={{
-                fontSize: "0.85rem",
+                display: "block",
+                width: "100%",
+                maxWidth: "100%",
+                fontSize: "0.82rem",
                 fontWeight: 600,
                 color: "var(--text-primary)",
-                maxWidth: "280px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
+                textAlign: "center",
+                lineHeight: 1.25,
               }}
+              title={`Chapter ${chapter.chapter_number}: ${chapter.title}`}
             >
               Chapter {chapter.chapter_number}: {chapter.title}
             </span>
-            <span style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>
+            <span
+              style={{
+                display: "block",
+                fontSize: "0.7rem",
+                color: "var(--text-muted)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                maxWidth: "100%",
+                lineHeight: 1.2,
+              }}
+            >
               {Math.round(progressPercent)}% read • ~{estimatedMinutes} min
             </span>
           </div>
 
           {/* Right: Actions */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.25rem",
+              flexShrink: 0,
+            }}
+          >
             {/* TOC Drawer button */}
             <button
               onClick={() => setDrawerOpen(true)}
               className="btn-ghost"
-              style={{ padding: "0.45rem" }}
+              style={{ padding: "0.4rem", borderRadius: "10px" }}
               title="Table of Contents"
               aria-label="Table of Contents"
             >
@@ -384,7 +424,8 @@ export function ReaderShell({
               onClick={toggleSpeech}
               className="btn-ghost"
               style={{
-                padding: "0.45rem",
+                padding: "0.4rem",
+                borderRadius: "10px",
                 color: isSpeaking ? "var(--accent)" : "inherit",
               }}
               title={isSpeaking ? "Pause Audio" : "Listen to chapter"}
@@ -396,8 +437,8 @@ export function ReaderShell({
             {/* Share */}
             <button
               onClick={handleShare}
-              className="btn-ghost"
-              style={{ padding: "0.45rem" }}
+              className="btn-ghost hidden sm:inline-flex"
+              style={{ padding: "0.4rem", borderRadius: "10px" }}
               title="Share Chapter"
               aria-label="Share"
             >
@@ -408,7 +449,7 @@ export function ReaderShell({
             <button
               onClick={() => setSettingsOpen(true)}
               className="btn-ghost"
-              style={{ padding: "0.45rem" }}
+              style={{ padding: "0.4rem", borderRadius: "10px" }}
               title="Reader Settings"
               aria-label="Reader Settings"
             >
