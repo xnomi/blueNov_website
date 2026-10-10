@@ -226,7 +226,7 @@ export function NovelCard({ novel, size = "normal", priority = false }: NovelCar
           >
             <span style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
               <Eye size={12} />
-              {formatViews(novel.view_count || 1200)} reads
+              {formatViews(novel.view_count || 0)} reads
             </span>
             <span style={{ color: "var(--accent)", fontWeight: 600 }}>
               Read Now →

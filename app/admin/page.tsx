@@ -141,6 +141,9 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <Link href="/admin/hero-customizer" className="btn-secondary" style={{ fontSize: "0.85rem", gap: "0.35rem" }}>
+            <Sparkles size={15} color="var(--accent)" /> Hero & Featured
+          </Link>
           <Link href="/admin/editors" className="btn-secondary" style={{ fontSize: "0.85rem", gap: "0.35rem" }}>
             <Users size={15} /> Manage Staff
           </Link>

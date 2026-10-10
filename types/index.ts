@@ -17,6 +17,7 @@ export interface Novel {
   genre?: Genre;
   status: "ongoing" | "completed" | "hiatus";
   is_published: boolean;
+  is_featured?: boolean;
   view_count: number;
   meta_title?: string;
   meta_description?: string;
@@ -24,6 +25,34 @@ export interface Novel {
   updated_at: string;
   chapters?: Chapter[];
   chapter_count?: number;
+}
+
+export interface Review {
+  id: string;
+  novel_id: string;
+  author_name: string;
+  rating: number; // 1 to 5
+  content: string;
+  likes: number;
+  created_at: string;
+}
+
+export type HeroLayoutTemplate = "modern-split" | "cinematic-banner" | "editorial-spotlight";
+
+export interface HeroSettings {
+  id?: number;
+  layout_template: HeroLayoutTemplate;
+  badge_text: string;
+  title: string;
+  title_highlight: string;
+  subtitle: string;
+  cta_primary_text: string;
+  cta_primary_link: string;
+  cta_secondary_text: string;
+  cta_secondary_link: string;
+  image_url: string;
+  featured_novel_ids?: string[];
+  updated_at?: string;
 }
 
 export interface Chapter {

@@ -8,6 +8,7 @@ import { ChapterList } from "@/components/novels/ChapterList";
 import { NovelHeroActions } from "@/components/novels/NovelHeroActions";
 import { ExpandableSynopsis } from "@/components/novels/ExpandableSynopsis";
 import { NovelReviews } from "@/components/novels/NovelReviews";
+import { ViewTracker } from "@/components/novels/ViewTracker";
 import { NovelCard } from "@/components/novels/NovelCard";
 import { Novel } from "@/types";
 import {
@@ -276,7 +277,7 @@ export default async function NovelDetailPage({ params }: PageProps) {
 
                 <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
                   <Eye size={16} color="var(--text-muted)" />
-                  <span>{formatViews(novel.view_count || 1200)} Reads</span>
+                  <span>{formatViews(novel.view_count || 0)} Reads</span>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
@@ -294,6 +295,9 @@ export default async function NovelDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* ── Client View Tracker ─────────────────────────────── */}
+      <ViewTracker novelId={novel.id} />
 
       {/* ── Content Container: Chapters & Reviews ───────────── */}
       <div className="container-main" style={{ padding: "3rem 1.25rem 5rem" }}>
@@ -315,7 +319,7 @@ export default async function NovelDetailPage({ params }: PageProps) {
         </section>
 
         {/* Reader Reviews & Comments */}
-        <NovelReviews novelSlug={novel.slug} />
+        <NovelReviews novelSlug={novel.slug} novelId={novel.id} />
 
         {/* ── Related Novels ─────────────────────────────────── */}
         {relatedNovels && relatedNovels.length > 0 && (

@@ -1,20 +1,17 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { NovelCard } from "@/components/novels/NovelCard";
-import { ContinueReadingCard } from "@/components/novels/ContinueReadingCard";
 import { GenreChips } from "@/components/novels/GenreChips";
 import { WebSiteSchema } from "@/components/seo/StructuredData";
+import { DynamicHeroSection } from "@/components/layout/DynamicHeroSection";
+import { getHeroSettings } from "@/lib/heroSettings";
 import { Novel, Genre } from "@/types";
 import {
-  Compass,
-  TrendingUp,
   Sparkles,
-  BookOpen,
-  Clock,
   Flame,
-  Award,
   ChevronRight,
-  Bookmark,
+  Award,
+  Clock,
 } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -27,22 +24,30 @@ export const metadata: Metadata = {
 
 async function getHomeData() {
   const supabase = await createClient();
+  const heroSettings = await getHeroSettings();
+  const featuredIds = heroSettings.featured_novel_ids || [];
 
   const [
-    { data: featuredNovels },
+    featuredNovelsResult,
     { data: trendingNovels },
     { data: newReleases },
     { data: editorsPicks },
     { data: recentlyUpdated },
     { data: genres },
   ] = await Promise.all([
-    // Featured (highest views)
-    supabase
-      .from("novels")
-      .select("*, genre:genres(*)")
-      .eq("is_published", true)
-      .order("view_count", { ascending: false })
-      .limit(4),
+    // 1. Featured Novels: Admin curated if set, else highest views
+    featuredIds.length > 0
+      ? supabase
+          .from("novels")
+          .select("*, genre:genres(*)")
+          .in("id", featuredIds)
+          .eq("is_published", true)
+      : supabase
+          .from("novels")
+          .select("*, genre:genres(*)")
+          .eq("is_published", true)
+          .order("view_count", { ascending: false })
+          .limit(4),
 
     // Trending
     supabase
@@ -60,7 +65,7 @@ async function getHomeData() {
       .order("created_at", { ascending: false })
       .limit(8),
 
-    // Editor's Picks (e.g. status completed or high engagement)
+    // Editor's Picks (status completed or high engagement)
     supabase
       .from("novels")
       .select("*, genre:genres(*)")
@@ -80,11 +85,33 @@ async function getHomeData() {
     supabase.from("genres").select("*").order("name"),
   ]);
 
+  let finalFeatured: Novel[] = (featuredNovelsResult.data as Novel[]) || [];
+  if (featuredIds.length > 0 && finalFeatured.length > 0) {
+    const orderMap = new Map<string, number>(featuredIds.map((id: string, index: number) => [id, index]));
+    finalFeatured.sort((a, b) => {
+      const posA = orderMap.get(a.id) ?? 999;
+      const posB = orderMap.get(b.id) ?? 999;
+      return posA - posB;
+    });
+  }
+
+  // If featured novels result was empty (e.g. invalid IDs), fallback to top viewed
+  if (finalFeatured.length === 0) {
+    const { data: fallbackFeatured } = await supabase
+      .from("novels")
+      .select("*, genre:genres(*)")
+      .eq("is_published", true)
+      .order("view_count", { ascending: false })
+      .limit(4);
+    finalFeatured = (fallbackFeatured as Novel[]) || [];
+  }
+
   return {
-    featuredNovels: (featuredNovels as Novel[]) || [],
+    heroSettings,
+    featuredNovels: finalFeatured,
     trendingNovels: (trendingNovels as Novel[]) || [],
     newReleases: (newReleases as Novel[]) || [],
-    editorsPicks: (editorsPicks as Novel[]) || (featuredNovels as Novel[]) || [],
+    editorsPicks: (editorsPicks as Novel[]) || finalFeatured,
     recentlyUpdated: (recentlyUpdated as Novel[]) || [],
     genres: (genres as Genre[]) || [],
   };
@@ -92,6 +119,7 @@ async function getHomeData() {
 
 export default async function HomePage() {
   const {
+    heroSettings,
     featuredNovels,
     trendingNovels,
     newReleases,
@@ -104,109 +132,8 @@ export default async function HomePage() {
     <>
       <WebSiteSchema />
 
-      {/* ── Hero Section ───────────────────────────────────── */}
-      <section
-        style={{
-          background: "linear-gradient(135deg, var(--bg-card) 0%, var(--bg-primary) 100%)",
-          borderBottom: "1px solid var(--border-color)",
-          padding: "3.5rem 0 3rem",
-          position: "relative",
-          overflow: "hidden",
-          width: "100%",
-          maxWidth: "100vw",
-        }}
-      >
-        {/* Decorative ambient gradients */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-100px",
-            right: 0,
-            width: "min(500px, 90vw)",
-            height: "min(500px, 90vw)",
-            background: "radial-gradient(circle, rgba(31, 95, 224, 0.12) 0%, transparent 70%)",
-            borderRadius: "50%",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-80px",
-            left: 0,
-            width: "min(360px, 80vw)",
-            height: "min(360px, 80vw)",
-            background: "radial-gradient(circle, rgba(91, 184, 245, 0.1) 0%, transparent 70%)",
-            borderRadius: "50%",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div className="container-main" style={{ position: "relative" }}>
-          <div style={{ maxWidth: "760px", marginBottom: "2.5rem" }}>
-            {/* Pill Badge */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                background: "var(--accent-light)",
-                borderRadius: "999px",
-                padding: "0.35rem 1rem",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <Sparkles size={14} color="var(--accent)" />
-              <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--accent)" }}>
-                Premium Web Novel Reader • 100% Free
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h1 className="h1" style={{ marginBottom: "1.1rem" }}>
-              Immerse Yourself in Stories{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #1F5FE0 0%, #5BB8F5 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Without Limits
-              </span>
-            </h1>
-
-            <p
-              className="body-lg"
-              style={{
-                color: "var(--text-secondary)",
-                marginBottom: "2rem",
-                maxWidth: "620px",
-              }}
-            >
-              Explore rich fantasy epics, heartwarming romances, sci-fi sagas, and detective thrillers. Read with customizable typography, dark & sepia themes, and zero ads in your reading flow.
-            </p>
-
-            {/* CTAs */}
-            <div style={{ display: "flex", gap: "0.85rem", flexWrap: "wrap" }}>
-              <Link href="/novels" className="btn-primary" style={{ padding: "0.75rem 1.75rem" }}>
-                <Compass size={18} />
-                Browse All Novels
-              </Link>
-              <Link href="/library" className="btn-secondary" style={{ padding: "0.75rem 1.5rem" }}>
-                <Bookmark size={18} />
-                My Library
-              </Link>
-            </div>
-          </div>
-
-          {/* Continue Reading Card in Hero */}
-          <div style={{ maxWidth: "800px" }}>
-            <ContinueReadingCard />
-          </div>
-        </div>
-      </section>
+      {/* ── Dynamic Hero Section (Customizable via Admin) ── */}
+      <DynamicHeroSection settings={heroSettings} featuredNovel={featuredNovels[0]} />
 
       {/* ── Main Content Container ─────────────────────────── */}
       <div className="container-main" style={{ padding: "3rem 1.25rem 5rem" }}>

@@ -46,6 +46,7 @@ export function AdminSidebar({ role = "admin" }: AdminSidebarProps) {
         { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
         { href: "/admin/novels", label: "Novels", icon: BookOpen },
         { href: "/admin/chapters", label: "Chapters", icon: BookMarked },
+        { href: "/admin/hero-customizer", label: "Hero & Featured", icon: Sparkles, badge: "New" },
         { href: "/admin/editors", label: "Editors & Staff", icon: Users, badge: "New" },
         { href: "/admin/seo", label: "SEO & Indexing", icon: Globe },
         { href: "/admin/ago", label: "AI & Search (AGO)", icon: Sparkles },
