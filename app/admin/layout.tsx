@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUserRole } from "@/lib/auth/rbac";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminSignOutButton } from "@/components/admin/AdminSignOutButton";
 import Link from "next/link";
 import { Globe, ShieldCheck, Sparkles, Feather, Users } from "lucide-react";
 
@@ -177,6 +178,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 {user.email}
               </span>
             </div>
+
+            {/* Prominent Header Sign Out Button */}
+            <AdminSignOutButton variant="header" />
           </div>
         </header>
 

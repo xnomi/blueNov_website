@@ -2,49 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bluenov.me</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>hourly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://bluenov.me/novels</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://bluenov.me/library</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://bluenov.me/search</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://bluenov.me/about</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.50</priority>
   </url>
   <url>
     <loc>https://bluenov.me/contact</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.40</priority>
   </url>
   <url>
     <loc>https://bluenov.me/privacy-policy</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
   <url>
     <loc>https://bluenov.me/terms</loc>
-    <lastmod>2026-10-10T08:57:42.715Z</lastmod>
+    <lastmod>2026-10-10T09:07:13.914Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
@@ -727,6 +727,12 @@
     <priority>0.90</priority>
   </url>
   <url>
+    <loc>https://bluenov.me/novels/loved-by-neighbor-romantic-nove/loved-by-neighbor-chap-1</loc>
+    <lastmod>2026-10-10T09:05:01.573Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://bluenov.me/novels/archive-of-our-own-complete-novel/archive-of-our-own-chp-6</loc>
     <lastmod>2026-10-10T08:08:37.455Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -877,12 +883,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/neon-rift-echoes-beyond-the-veil/chapter-3</loc>
-    <lastmod>2026-06-29T07:01:50.686Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://bluenov.me/novels/neon-rift-echoes-beyond-the-veil/chapter-1</loc>
     <lastmod>2026-06-29T07:01:50.686Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -895,7 +895,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-of-the-lost-frontier/chapter-2</loc>
+    <loc>https://bluenov.me/novels/neon-rift-echoes-beyond-the-veil/chapter-3</loc>
+    <lastmod>2026-06-29T07:01:50.686Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/novels/echoes-of-the-lost-frontier/chapter-3</loc>
     <lastmod>2026-06-29T01:00:23.998Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -907,14 +913,8 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-of-the-lost-frontier/chapter-3</loc>
+    <loc>https://bluenov.me/novels/echoes-of-the-lost-frontier/chapter-2</loc>
     <lastmod>2026-06-29T01:00:23.998Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://bluenov.me/novels/neon-veil-of-the-silent-city/chapter-2</loc>
-    <lastmod>2026-06-28T19:01:05.170Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -925,8 +925,20 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://bluenov.me/novels/neon-veil-of-the-silent-city/chapter-2</loc>
+    <lastmod>2026-06-28T19:01:05.170Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://bluenov.me/novels/neon-veil-of-the-silent-city/chapter-3</loc>
     <lastmod>2026-06-28T19:01:05.170Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/novels/whispers-beneath-black-hollow/chapter-2</loc>
+    <lastmod>2026-06-28T13:00:24.091Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -943,13 +955,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-black-hollow/chapter-2</loc>
-    <lastmod>2026-06-28T13:00:24.091Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-ember-veil/chapter-1</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-ember-veil/chapter-3</loc>
     <lastmod>2026-06-28T01:00:12.539Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -961,7 +967,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-ember-veil/chapter-3</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-ember-veil/chapter-1</loc>
     <lastmod>2026-06-28T01:00:12.539Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1435,13 +1441,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-beyond-the-singularity/chapter-3</loc>
+    <loc>https://bluenov.me/novels/echoes-beyond-the-singularity/chapter-2</loc>
     <lastmod>2026-06-20T01:00:27.771Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-beyond-the-singularity/chapter-2</loc>
+    <loc>https://bluenov.me/novels/echoes-beyond-the-singularity/chapter-3</loc>
     <lastmod>2026-06-20T01:00:27.771Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1453,13 +1459,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-of-the-lost-expedition/chapter-1</loc>
+    <loc>https://bluenov.me/novels/echoes-of-the-lost-expedition/chapter-2</loc>
     <lastmod>2026-06-19T19:01:06.663Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-of-the-lost-expedition/chapter-2</loc>
+    <loc>https://bluenov.me/novels/echoes-of-the-lost-expedition/chapter-1</loc>
     <lastmod>2026-06-19T19:01:06.663Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1471,12 +1477,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/beneath-the-silent-surface/chapter-1</loc>
-    <lastmod>2026-06-19T13:00:33.610Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
     <loc>https://bluenov.me/novels/beneath-the-silent-surface/chapter-2</loc>
     <lastmod>2026-06-19T13:00:33.610Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -1484,6 +1484,12 @@
   </url>
   <url>
     <loc>https://bluenov.me/novels/beneath-the-silent-surface/chapter-3</loc>
+    <lastmod>2026-06-19T13:00:33.610Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/novels/beneath-the-silent-surface/chapter-1</loc>
     <lastmod>2026-06-19T13:00:33.610Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1525,13 +1531,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-verdant-veil/chapter-3</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-verdant-veil/chapter-2</loc>
     <lastmod>2026-06-18T19:01:30.774Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-verdant-veil/chapter-2</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-verdant-veil/chapter-3</loc>
     <lastmod>2026-06-18T19:01:30.774Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1741,7 +1747,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-fog/chapter-3</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-fog/chapter-1</loc>
     <lastmod>2026-06-15T19:00:57.593Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1753,14 +1759,8 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-fog/chapter-1</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-fog/chapter-3</loc>
     <lastmod>2026-06-15T19:00:57.593Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://bluenov.me/novels/the-whispered-veil-of-eldoria/chapter-2</loc>
-    <lastmod>2026-06-15T13:00:25.951Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -1777,13 +1777,19 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/when-stars-collide-in-forbidden-love/chapter-3</loc>
-    <lastmod>2026-06-15T09:56:13.767Z</lastmod>
+    <loc>https://bluenov.me/novels/the-whispered-veil-of-eldoria/chapter-2</loc>
+    <lastmod>2026-06-15T13:00:25.951Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://bluenov.me/novels/when-stars-collide-in-forbidden-love/chapter-2</loc>
+    <lastmod>2026-06-15T09:56:13.767Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/novels/when-stars-collide-in-forbidden-love/chapter-3</loc>
     <lastmod>2026-06-15T09:56:13.767Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1795,13 +1801,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/embers-of-the-forsaken-realm/chapter-1</loc>
+    <loc>https://bluenov.me/novels/embers-of-the-forsaken-realm/chapter-3</loc>
     <lastmod>2026-06-15T09:39:57.173Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/embers-of-the-forsaken-realm/chapter-3</loc>
+    <loc>https://bluenov.me/novels/embers-of-the-forsaken-realm/chapter-1</loc>
     <lastmod>2026-06-15T09:39:57.173Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1831,7 +1837,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/the-hollow-among-us/chapter-1</loc>
+    <loc>https://bluenov.me/novels/the-hollow-among-us/chapter-2</loc>
     <lastmod>2026-06-10T13:00:26.223Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1843,7 +1849,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/the-hollow-among-us/chapter-2</loc>
+    <loc>https://bluenov.me/novels/the-hollow-among-us/chapter-1</loc>
     <lastmod>2026-06-10T13:00:26.223Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1855,7 +1861,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-withered-pines/chapter-2</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-withered-pines/chapter-3</loc>
     <lastmod>2026-06-10T01:00:37.475Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1867,7 +1873,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-withered-pines/chapter-3</loc>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-withered-pines/chapter-2</loc>
     <lastmod>2026-06-10T01:00:37.475Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1879,13 +1885,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-of-the-starlit-divide/chapter-3</loc>
+    <loc>https://bluenov.me/novels/echoes-of-the-starlit-divide/chapter-1</loc>
     <lastmod>2026-06-09T13:00:52.501Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/echoes-of-the-starlit-divide/chapter-1</loc>
+    <loc>https://bluenov.me/novels/echoes-of-the-starlit-divide/chapter-3</loc>
     <lastmod>2026-06-09T13:00:52.501Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1897,13 +1903,13 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/runes-of-the-forgotten-wild/chapter-3</loc>
+    <loc>https://bluenov.me/novels/runes-of-the-forgotten-wild/chapter-1</loc>
     <lastmod>2026-06-09T01:00:27.595Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/runes-of-the-forgotten-wild/chapter-1</loc>
+    <loc>https://bluenov.me/novels/runes-of-the-forgotten-wild/chapter-3</loc>
     <lastmod>2026-06-09T01:00:27.595Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -1915,6 +1921,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://bluenov.me/novels/whispers-beneath-the-midnight-veil/chapter-1</loc>
+    <lastmod>2026-06-08T13:00:41.973Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://bluenov.me/novels/whispers-beneath-the-midnight-veil/chapter-3</loc>
     <lastmod>2026-06-08T13:00:41.973Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -1922,12 +1934,6 @@
   </url>
   <url>
     <loc>https://bluenov.me/novels/whispers-beneath-the-midnight-veil/chapter-2</loc>
-    <lastmod>2026-06-08T13:00:41.973Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://bluenov.me/novels/whispers-beneath-the-midnight-veil/chapter-1</loc>
     <lastmod>2026-06-08T13:00:41.973Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -2287,7 +2293,7 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/love-in-the-nebula/chapter-1</loc>
+    <loc>https://bluenov.me/novels/the-shadow-chronicles/chapter-1</loc>
     <lastmod>2026-06-03T18:33:56.680Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -2323,9 +2329,63 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://bluenov.me/novels/the-shadow-chronicles/chapter-1</loc>
+    <loc>https://bluenov.me/novels/love-in-the-nebula/chapter-1</loc>
     <lastmod>2026-06-03T18:33:56.680Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/romance</loc>
+    <lastmod>2026-06-04T14:11:23.438Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/mystery</loc>
+    <lastmod>2026-06-04T14:52:23.938Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/adventure</loc>
+    <lastmod>2026-06-04T15:16:33.352Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/fantasy</loc>
+    <lastmod>2026-06-04T15:25:13.125Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/sci-fi</loc>
+    <lastmod>2026-06-04T15:26:18.324Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/thriller</loc>
+    <lastmod>2026-06-04T15:52:00.420Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/horror</loc>
+    <lastmod>2026-06-04T15:52:00.420Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/drama</loc>
+    <lastmod>2026-06-04T15:52:00.420Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://bluenov.me/genre/essays-and-insights</loc>
+    <lastmod>2026-10-05T07:03:33.233Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
   </url>
 </urlset>

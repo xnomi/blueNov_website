@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AdminSignOutButton } from "@/components/admin/AdminSignOutButton";
 import {
   BookOpen,
   BookMarked,
@@ -97,13 +98,14 @@ export function EditorDashboardView({
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
           <Link href="/admin/chapters/new" className="btn-secondary" style={{ fontSize: "0.85rem", gap: "0.35rem" }}>
             <Plus size={15} /> Add Chapter
           </Link>
           <Link href="/admin/novels/new" className="btn-primary" style={{ fontSize: "0.85rem", gap: "0.35rem" }}>
             <Plus size={15} /> Write New Novel
           </Link>
+          <AdminSignOutButton variant="button" />
         </div>
       </div>
 
