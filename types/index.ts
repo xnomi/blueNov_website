@@ -73,3 +73,47 @@ export interface PaginatedResult<T> {
   pageSize: number;
   totalPages: number;
 }
+
+export type UserRole = "admin" | "editor" | "user";
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  full_name?: string;
+  role: UserRole;
+  avatar_url?: string;
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface EditorActivity {
+  id: string;
+  user_id?: string;
+  user_email: string;
+  user_name?: string;
+  action: "created_novel" | "updated_novel" | "deleted_novel" | "created_chapter" | "updated_chapter" | "deleted_chapter" | "created_editor" | "updated_editor" | "reset_password";
+  target_type: "novel" | "chapter" | "article" | "editor" | "system";
+  target_id?: string;
+  target_title?: string;
+  details?: Record<string, any>;
+  created_at: string;
+}
+
+export interface EditorSummary {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  novels_count: number;
+  chapters_count: number;
+  total_views: number;
+  last_active?: string;
+  created_at: string;
+}
+
+export interface AnalyticsDataPoint {
+  date: string;
+  visitors: number;
+  pageviews: number;
+  reads: number;
+}

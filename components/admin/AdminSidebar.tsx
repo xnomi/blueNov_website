@@ -15,19 +15,17 @@ import {
   Mail,
   Globe,
   Sparkles,
+  Users,
+  Feather,
+  ShieldCheck,
 } from "lucide-react";
+import { UserRole } from "@/types";
 
-const NAV = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { href: "/admin/novels", label: "Novels", icon: BookOpen },
-  { href: "/admin/chapters", label: "Chapters", icon: BookMarked },
-  { href: "/admin/seo", label: "SEO & Indexing", icon: Globe },
-  { href: "/admin/ago", label: "AI & Search (AGO)", icon: Sparkles },
-  { href: "/admin/messages", label: "Messages", icon: Mail },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
-];
+interface AdminSidebarProps {
+  role?: UserRole;
+}
 
-export function AdminSidebar() {
+export function AdminSidebar({ role = "admin" }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -40,6 +38,25 @@ export function AdminSidebar() {
     router.push("/admin/login");
     router.refresh();
   };
+
+  const isAdmin = role === "admin";
+
+  const navItems = isAdmin
+    ? [
+        { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+        { href: "/admin/novels", label: "Novels", icon: BookOpen },
+        { href: "/admin/chapters", label: "Chapters", icon: BookMarked },
+        { href: "/admin/editors", label: "Editors & Staff", icon: Users, badge: "New" },
+        { href: "/admin/seo", label: "SEO & Indexing", icon: Globe },
+        { href: "/admin/ago", label: "AI & Search (AGO)", icon: Sparkles },
+        { href: "/admin/messages", label: "Messages", icon: Mail },
+        { href: "/admin/settings", label: "Settings", icon: Settings },
+      ]
+    : [
+        { href: "/admin", label: "Editorial Studio", icon: LayoutDashboard, exact: true },
+        { href: "/admin/novels", label: "Novels", icon: BookOpen },
+        { href: "/admin/chapters", label: "Chapters", icon: BookMarked },
+      ];
 
   return (
     <aside
@@ -54,7 +71,7 @@ export function AdminSidebar() {
         padding: "1.5rem 0",
       }}
     >
-      {/* Brand Header with Official Logo */}
+      {/* Brand Header with Official Logo & Role Badge */}
       <div style={{ padding: "0 1.25rem 1.5rem", borderBottom: "1px solid var(--border-color)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Logo size="md" href="/admin" />
@@ -66,11 +83,16 @@ export function AdminSidebar() {
               letterSpacing: "0.06em",
               padding: "0.2rem 0.5rem",
               borderRadius: "6px",
-              background: "rgba(31, 95, 224, 0.1)",
-              color: "var(--accent)",
+              background: isAdmin ? "rgba(31, 95, 224, 0.1)" : "rgba(16, 185, 129, 0.1)",
+              color: isAdmin ? "var(--accent)" : "#10b981",
+              border: `1px solid ${isAdmin ? "rgba(31, 95, 224, 0.2)" : "rgba(16, 185, 129, 0.2)"}`,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.25rem",
             }}
           >
-            Admin
+            {isAdmin ? <ShieldCheck size={11} /> : <Feather size={11} />}
+            <span>{isAdmin ? "Admin" : "Editor"}</span>
           </span>
         </div>
       </div>
@@ -95,10 +117,10 @@ export function AdminSidebar() {
             padding: "0 0.65rem 0.4rem",
           }}
         >
-          Management
+          {isAdmin ? "Management" : "Editorial Studio"}
         </div>
 
-        {NAV.map(({ href, label, icon: Icon, exact }) => {
+        {navItems.map(({ href, label, icon: Icon, exact, badge }: any) => {
           const active = isActive(href, exact);
           return (
             <Link
@@ -112,13 +134,19 @@ export function AdminSidebar() {
                 borderRadius: "10px",
                 textDecoration: "none",
                 background: active
-                  ? "linear-gradient(135deg, #1F5FE0 0%, #174ab5 100%)"
+                  ? isAdmin
+                    ? "linear-gradient(135deg, #1F5FE0 0%, #174ab5 100%)"
+                    : "linear-gradient(135deg, #10B981 0%, #059669 100%)"
                   : "transparent",
                 color: active ? "#ffffff" : "var(--text-secondary)",
                 fontWeight: active ? 600 : 500,
                 fontSize: "0.88rem",
                 transition: "all 0.15s cubic-bezier(0.16, 1, 0.3, 1)",
-                boxShadow: active ? "0 4px 12px rgba(31, 95, 224, 0.3)" : "none",
+                boxShadow: active
+                  ? isAdmin
+                    ? "0 4px 12px rgba(31, 95, 224, 0.3)"
+                    : "0 4px 12px rgba(16, 185, 129, 0.3)"
+                  : "none",
               }}
               onMouseEnter={(e) => {
                 if (!active) {
@@ -135,7 +163,22 @@ export function AdminSidebar() {
             >
               <Icon size={17} strokeWidth={active ? 2.5 : 2} />
               <span>{label}</span>
-              {active && <ChevronRight size={14} style={{ marginLeft: "auto", opacity: 0.8 }} />}
+              {badge && (
+                <span
+                  style={{
+                    marginLeft: "auto",
+                    fontSize: "0.65rem",
+                    fontWeight: 700,
+                    padding: "0.1rem 0.4rem",
+                    borderRadius: "4px",
+                    background: "rgba(31, 95, 224, 0.2)",
+                    color: active ? "#ffffff" : "#1F5FE0",
+                  }}
+                >
+                  {badge}
+                </span>
+              )}
+              {active && !badge && <ChevronRight size={14} style={{ marginLeft: "auto", opacity: 0.8 }} />}
             </Link>
           );
         })}

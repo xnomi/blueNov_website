@@ -116,6 +116,19 @@ export default function NewChapterPage() {
     }
 
     setSuccess("Chapter created successfully!");
+
+    try {
+      fetch("/api/admin/activity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "created_chapter",
+          targetType: "chapter",
+          targetTitle: `Ch. ${form.chapter_number}: ${form.title}`,
+        }),
+      });
+    } catch {}
+
     setTimeout(() => router.push("/admin/chapters"), 1000);
   };
 

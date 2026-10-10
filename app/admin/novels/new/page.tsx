@@ -38,11 +38,27 @@ export default function NewNovelPage() {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
-    createClient()
-      .from("genres")
-      .select("id, name")
-      .order("name")
-      .then(({ data }) => setGenres(data || []));
+    async function loadGenres() {
+      try {
+        const res = await fetch("/api/genres");
+        const json = await res.json();
+        if (json.genres && json.genres.length > 0) {
+          setGenres(json.genres);
+          return;
+        }
+      } catch {}
+
+      try {
+        const { data } = await createClient()
+          .from("genres")
+          .select("id, name")
+          .order("name");
+        if (data && data.length > 0) {
+          setGenres(data);
+        }
+      } catch {}
+    }
+    loadGenres();
   }, []);
 
   const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
@@ -75,6 +91,19 @@ export default function NewNovelPage() {
     }
 
     setSuccess("Novel and SEO metadata created successfully!");
+
+    try {
+      fetch("/api/admin/activity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "created_novel",
+          targetType: "novel",
+          targetTitle: form.title,
+        }),
+      });
+    } catch {}
+
     setTimeout(() => router.push("/admin/novels"), 1000);
   };
 

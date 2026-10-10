@@ -39,15 +39,20 @@ export default function EditNovelPage({ params }: { params: Promise<{ id: string
       setNovelId(id);
       const supabase = createClient();
 
-      const [{ data: novel }, { data: genreList }] = await Promise.all([
+      const [{ data: novel }, genreRes] = await Promise.all([
         supabase.from("novels").select("*").eq("id", id).single(),
-        supabase.from("genres").select("id, name").order("name"),
+        fetch("/api/genres").then((r) => r.json()).catch(() => null),
       ]);
 
       if (novel) {
         setForm(novel);
       }
-      setGenres(genreList || []);
+      if (genreRes?.genres && genreRes.genres.length > 0) {
+        setGenres(genreRes.genres);
+      } else {
+        const { data: fallbackList } = await supabase.from("genres").select("id, name").order("name");
+        setGenres(fallbackList || []);
+      }
       setLoading(false);
     })();
   }, []);
@@ -84,6 +89,20 @@ export default function EditNovelPage({ params }: { params: Promise<{ id: string
     }
 
     setSuccess("Novel and SEO metadata updated successfully!");
+
+    try {
+      fetch("/api/admin/activity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "updated_novel",
+          targetType: "novel",
+          targetId: novelId,
+          targetTitle: form.title,
+        }),
+      });
+    } catch {}
+
     setSaving(false);
   };
 

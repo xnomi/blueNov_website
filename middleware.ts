@@ -44,6 +44,23 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(dashboardUrl);
   }
 
+  // Admin-only subroutes (Editors management, Site Settings)
+  const isSuperAdminSubroute =
+    request.nextUrl.pathname.startsWith("/admin/editors") ||
+    request.nextUrl.pathname.startsWith("/admin/settings");
+
+  if (isSuperAdminSubroute && user) {
+    const adminEmail = (process.env.ADMIN_EMAIL || "admin@bluenov.me").toLowerCase();
+    const defaultAdmins = [adminEmail, "xnomi555@gmail.com", "nomiash1122@gmail.com"];
+    const isEmailAdmin = defaultAdmins.includes((user.email || "").toLowerCase());
+    const userRole = user.user_metadata?.role;
+
+    if (!isEmailAdmin && userRole === "editor") {
+      const dashboardUrl = new URL("/admin", request.url);
+      return NextResponse.redirect(dashboardUrl);
+    }
+  }
+
   return supabaseResponse;
 }
 
